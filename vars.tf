@@ -1,7 +1,7 @@
 # Your SSH key
 variable "ssh_public_key" {
   default     = ""
-  description = "Copy in a public ssh key to be used with the FortiGate. Required Value."
+  description = "The name(ID) of your ssh public key to be used."
 }
 // Magic Value for Calalog Validation that initlizes terraform with a specific version.
 // Only needed in IBM catalog.
@@ -11,66 +11,75 @@ variable "TF_VERSION" {
 }
 
 // IBM Regions
-variable "region" {
+variable "REGION" {
   type        = string
   default     = "us-south"
   description = "Deployment Region"
 }
 // IBM availability zones
-variable "zone1" {
+variable "ZONE1" {
   type        = string
   default     = "us-south-1"
   description = "Deployment Zone Primary(Active) FortiGate."
 }
-variable "zone2" {
+variable "ZONE2" {
   type        = string
   default     = "us-south-2"
   description = "Secondary Zone for Secondary(Passive) FortiGate."
 }
-variable "vpc" {
+variable "VPC" {
   type        = string
   default     = ""
   description = "Name of the VPC you want to deploy a FortiGate into."
 }
-variable "subnet1" {
+variable "ZONE1_SUBNET_1" {
   type        = string
   default     = ""
-  description = "The Primary, Public Subnet Used for port1 on the FortiGate"
+  description = "The Primary, Public Subnet Used for port1 on the ACTIVE FortiGate"
 }
-variable "subnet2" {
+variable "ZONE1_SUBNET_2" {
   type        = string
   default     = ""
-  description = "The Secondary, Private Subnet Used for port2 on the FortiGate"
+  description = "The Secondary, Private Subnet Used for port2 on the ACTIVE FortiGate"
 }
-variable "zone_two_subnet_1" {
+variable "ZONE2_SUBNET_1" {
   type =  string
   default = ""
-  description = "The Primary Subnet of the second zone"
+  description = "The Primary, Public Subnet Used for port1 on the PASSIVE FortiGate"
 }
-variable "zone_two_subnet_2" {
+variable "ZONE2_SUBNET_2" {
   type =  string
   default = ""
-  description = "The Secondary Subnet of the second zone"
+  description = "The Secondary, Private Subnet Used for port2 on the PASSIVE FortiGate"
 }
-variable "netmask" {
+variable "NETMASK" {
   type        = string
   default     = "255.255.255.0"
   description = "Subnet Mask for Static IP and Nic of each FortiGate."
 }
 
-variable "primary_ipv4_fgt1" {
+variable "FGT1_STATIC_IP_PORT1" {
   type        = string
   default     = ""
-  description = "IP Assignment for the Primary (Active) FortiGate Port1."
+  description = "REQUIRED - STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port1. This is used for HA SYNC."
 }
-
-variable "primary_ipv4_fgt2" {
+variable "FGT1_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-  description = "IP Assignment for the Secondary (Passive) FortiGate Port1."
+  description = "OPTIONAL - STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port2. If not assigned DHCP will be used."
+}
+variable "FGT2_STATIC_IP_PORT1" {
+  type        = string
+  default     = ""
+  description = "REQUIRED -STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port1. This is used for HA SYNC"
+}
+variable "FGT2_STATIC_IP_PORT2" {
+  type        = string
+  default     = ""
+  description =  "OPTIONAL - STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2. If not assigned DHCP will be used."
 }
 
-variable "security_group" {
+variable "SECURITY_GROUP" {
   type        = string
   default     = ""
   description = "The Security Group to attach to the FortiGate Instance Network Interfaces."
@@ -82,6 +91,7 @@ variable "security_group" {
 variable "cluster_name" {
   type    = string
   default = "fortigate-terraform"
+  description = "Name will be in the format of cluster-name-resource-randomSuffix to be easily identifiable. Must be LOWER case"
 }
 // Random Suffix to avoid name collisions and identify cluster.
 resource "random_string" "random_suffix" {
@@ -102,6 +112,8 @@ variable "image" {
 }
 variable "ibmcloud_api_key" {
   default = ""
+    description = "Your IBM USER API key. Refer to the README for Links to documentation for IBM API keys. This Value is required for the SDN Connector For HA SYNC"
+
 }
 // Default Instance type
 // See: https://cloud.ibm.com/docs/vpc?topic=vpc-profiles
