@@ -1,5 +1,5 @@
 # Your SSH key
-variable "ssh_public_key" {
+variable "SSH_PUBLIC_KEY" {
   default     = ""
   description = "The name(ID) of your ssh public key to be used."
 }
