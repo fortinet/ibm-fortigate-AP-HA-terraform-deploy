@@ -1,7 +1,5 @@
-resource "ibm_is_ssh_key" "sshkey" {
-  // Name must be lowercase
-  name       = "${var.cluster_name}-sshkey-${random_string.random_suffix.result}"
-  public_key = var.ssh_public_key
+data "ibm_is_ssh_key" "ssh_key" {
+  name = var.ssh_public_key
 }
 
 resource "ibm_is_volume" "logDisk1" {
@@ -49,7 +47,7 @@ resource "ibm_is_instance" "fgt1" {
   vpc       = data.ibm_is_vpc.vpc1.id
   zone      = var.zone1
   user_data = data.template_file.userdata_active.rendered
-  keys      = [ibm_is_ssh_key.sshkey.id]
+  keys      = [data.ibm_is_ssh_key.ssh_key.id]]
 }
 // Secondary FortiGate
 resource "ibm_is_instance" "fgt2" {
@@ -77,7 +75,7 @@ resource "ibm_is_instance" "fgt2" {
   vpc       = data.ibm_is_vpc.vpc1.id
   zone      = var.zone2
   user_data = data.template_file.userdata_passive.rendered
-  keys      = [ibm_is_ssh_key.sshkey.id]
+  keys      = [data.ibm_is_ssh_key.ssh_key.id]]
 }
 
 // Use for bootstrapping cloud-init
