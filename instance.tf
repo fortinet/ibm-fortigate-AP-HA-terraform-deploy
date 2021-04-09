@@ -90,7 +90,6 @@ data "template_file" "userdata_active" {
   vars = {
     fgt_1_active_ip       = var.FGT1_STATIC_IP_PORT1
     fgt_2_passive_ip      = var.FGT1_STATIC_IP_PORT2
-    fgt_1_active_ip_port2 = var.FGT1_STATIC_IP_PORT2 == "" ? "" : "set ip ${var.FGT1_STATIC_IP_PORT2} ${var.NETMASK}" // if left blank, no ip set. If IP then it is set.
     netmask               = var.NETMASK
     ibm_api_key           = var.IBMCLOUD_API_KEY
     region                = var.region
@@ -103,7 +102,6 @@ data "template_file" "userdata_passive" {
   vars = {
     fgt_1_active_ip        = var.FGT1_STATIC_IP_PORT1
     fgt_2_passive_ip       = var.FGT1_STATIC_IP_PORT2
-    fgt_2_passive_ip_port2 = var.FGT2_STATIC_IP_PORT2 == "" ? "" : "set ip ${var.FGT2_STATIC_IP_PORT2} ${var.NETMASK}" // if left blank, no ip set. If IP then it is set.
     netmask                = var.NETMASK
     ibm_api_key            = var.IBMCLOUD_API_KEY
     region                 = var.region

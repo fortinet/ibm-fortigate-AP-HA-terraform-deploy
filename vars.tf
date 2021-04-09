@@ -61,22 +61,22 @@ variable "NETMASK" {
 variable "FGT1_STATIC_IP_PORT1" {
   type        = string
   default     = ""
-  description = "REQUIRED - STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port1. This is used for HA SYNC."
+  description = "STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port1. This is used for HA SYNC."
 }
 variable "FGT1_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-  description = "OPTIONAL - STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port2. If not assigned DHCP will be used."
+  description = "STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port2. If not assigned DHCP will be used."
 }
 variable "FGT2_STATIC_IP_PORT1" {
   type        = string
   default     = ""
-  description = "REQUIRED -STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port1. This is used for HA SYNC"
+  description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port1. This is used for HA SYNC"
 }
 variable "FGT2_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-  description = "OPTIONAL - STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2. If not assigned DHCP will be used."
+  description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2. If not assigned DHCP will be used."
 }
 
 variable "SECURITY_GROUP" {
