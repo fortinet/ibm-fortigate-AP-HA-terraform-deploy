@@ -43,13 +43,13 @@ variable "ZONE1_SUBNET_2" {
   description = "The Secondary, Private Subnet Used for port2 on the ACTIVE FortiGate"
 }
 variable "ZONE2_SUBNET_1" {
-  type =  string
-  default = ""
+  type        = string
+  default     = ""
   description = "The Primary, Public Subnet Used for port1 on the PASSIVE FortiGate"
 }
 variable "ZONE2_SUBNET_2" {
-  type =  string
-  default = ""
+  type        = string
+  default     = ""
   description = "The Secondary, Private Subnet Used for port2 on the PASSIVE FortiGate"
 }
 variable "NETMASK" {
@@ -76,7 +76,7 @@ variable "FGT2_STATIC_IP_PORT1" {
 variable "FGT2_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-  description =  "OPTIONAL - STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2. If not assigned DHCP will be used."
+  description = "OPTIONAL - STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2. If not assigned DHCP will be used."
 }
 
 variable "SECURITY_GROUP" {
@@ -88,9 +88,9 @@ variable "SECURITY_GROUP" {
 
 // Name will be in the format of cluster_name-RESOURCE-randomSuffix to be easily identifiable.
 // Name must be lowercase
-variable "cluster_name" {
-  type    = string
-  default = "fortigate-terraform"
+variable "CLUSTER_NAME" {
+  type        = string
+  default     = "fortigate-terraform"
   description = "Name will be in the format of cluster-name-resource-randomSuffix to be easily identifiable. Must be LOWER case"
 }
 // Random Suffix to avoid name collisions and identify cluster.
@@ -110,14 +110,14 @@ resource "random_string" "random_suffix" {
 variable "image" {
   default = "cos://us-geo/fortinet/fortigate_byol_644_b1803_GA.qcow2"
 }
-variable "ibmcloud_api_key" {
-  default = ""
-    description = "Your IBM USER API key. Refer to the README for Links to documentation for IBM API keys. This Value is required for the SDN Connector For HA SYNC"
+variable "IBMCLOUD_API_KEY" {
+  default     = ""
+  description = "Your IBM USER API key. Refer to the README for Links to documentation for IBM API keys. This Value is required for the SDN Connector For HA SYNC"
 
 }
 // Default Instance type
 // See: https://cloud.ibm.com/docs/vpc?topic=vpc-profiles
-variable "profile" {
+variable "PROFILE" {
   default     = "cx2-2x4"
-  description = "VM size and family"
+  description = "VM size and family. See README for links to documentation on IBM instance types."
 }
