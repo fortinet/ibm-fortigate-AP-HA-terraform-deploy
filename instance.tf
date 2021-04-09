@@ -1,19 +1,19 @@
 data "ibm_is_ssh_key" "ssh_key" {
-  name = var.ssh_public_key
+  name = var.SSH_PUBLIC_KEY
 }
 
 resource "ibm_is_volume" "logDisk1" {
   // Name must be lower case
   name    = "${var.CLUSTER_NAME}-logdisk1-${random_string.random_suffix.result}"
   profile = "10iops-tier"
-  zone    = var.zone1
+  zone    = var.ZONE1
 }
 
 resource "ibm_is_volume" "logDisk2" {
   // Name must be lower case
   name    = "${var.CLUSTER_NAME}-logdisk2-${random_string.random_suffix.result}"
   profile = "10iops-tier"
-  zone    = var.zone2
+  zone    = var.ZONE2
 }
 
 resource "ibm_is_floating_ip" "publicip" {
@@ -46,7 +46,7 @@ resource "ibm_is_instance" "fgt1" {
   volumes = [ibm_is_volume.logDisk1.id]
 
   vpc       = data.ibm_is_vpc.vpc1.id
-  zone      = var.zone1
+  zone      = var.ZONE1
   user_data = data.template_file.userdata_active.rendered
   keys      = [data.ibm_is_ssh_key.ssh_key.id]
 
@@ -77,7 +77,7 @@ resource "ibm_is_instance" "fgt2" {
   volumes = [ibm_is_volume.logDisk2.id]
 
   vpc       = data.ibm_is_vpc.vpc1.id
-  zone      = var.zone2
+  zone      = var.ZONE2
   user_data = data.template_file.userdata_passive.rendered
   keys      = [data.ibm_is_ssh_key.ssh_key.id]
 }
