@@ -15,7 +15,7 @@ data "ibm_is_subnet" "zone_two_subnet_2" {
 }
 
 resource "ibm_is_vpc_routing_table" "fgt_route_table" {
-  name = "${var.cluster_name}-port1-${random_string.random_suffix.result}"
+  name = "${var.CLUSTER_NAME}-port1-${random_string.random_suffix.result}"
   vpc  = data.ibm_is_vpc.vpc1.id
 }
 
