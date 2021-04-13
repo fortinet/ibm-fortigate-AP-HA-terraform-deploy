@@ -44,12 +44,12 @@ variable "ZONE1_SUBNET_2" {
 }
 variable "ZONE1_SUBNET_3" {
   type        = string
-  default     = "fgt-1-static-port3-heartbeat"
+  default     = ""
   description = "Subnet for the HA heartbeat mechanism. Tied to Port3"
 }
 variable "ZONE1_SUBNET_4" {
   type        = string
-  default     = "fgt-1-static-port4-mgmt"
+  default     = ""
   description = "Subnet used for the HA mangment subnet. Tied to Port4"
 }
 //Second (PASSIVE) FortiGate
@@ -65,12 +65,12 @@ variable "ZONE2_SUBNET_2" {
 }
 variable "ZONE2_SUBNET_3" {
   type        = string
-  default     = "fgt-2-static-port3-heartbeat"
+  default     = ""
   description = "Subnet for the HA heartbeat mechanism. Tied to Port3"
 }
 variable "ZONE2_SUBNET_4" {
   type        = string
-  default     = "fgt-2-static-port4-mgmt"
+  default     = ""
   description = "Subnet used for the HA mangment subnet. Tied to Port4"
 }
 variable "NETMASK" {
@@ -101,6 +101,11 @@ variable "FGT1_STATIC_IP_PORT4" {
   default     = ""
   description = "HA mangment port"
 }
+variable "FGT1_PORT4_MGMT_GATEWAY" {
+  type        = string
+  default     = ""
+  description = "Gateway for the HA mangment port (Port4) on the primary (ACTIVE) FortiGate"
+}
 // FortiGate 2 (PASSIVE) PORTS
 variable "FGT2_STATIC_IP_PORT1" {
   type        = string
@@ -124,7 +129,11 @@ variable "FGT2_STATIC_IP_PORT4" {
   default     = ""
   description = "HA mangment port"
 }
-
+variable "FGT2_PORT4_MGMT_GATEWAY" {
+  type        = string
+  default     = ""
+  description = "Gateway for the HA mangment port (Port4) on the second (PASSIVE) FortiGate"
+}
 variable "SECURITY_GROUP" {
   type        = string
   default     = ""
