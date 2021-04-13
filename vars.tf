@@ -13,18 +13,18 @@ variable "TF_VERSION" {
 // IBM Regions
 variable "REGION" {
   type        = string
-  default     = "us-south"
+  default     = "us-east"
   description = "Deployment Region"
 }
 // IBM availability zones
 variable "ZONE1" {
   type        = string
-  default     = "us-south-1"
+  default     = "us-east-1"
   description = "Deployment Zone Primary(Active) FortiGate."
 }
 variable "ZONE2" {
   type        = string
-  default     = "us-south-2"
+  default     = "us-east-2"
   description = "Secondary Zone for Secondary(Passive) FortiGate."
 }
 variable "VPC" {
@@ -42,6 +42,17 @@ variable "ZONE1_SUBNET_2" {
   default     = ""
   description = "The Secondary, Private Subnet Used for port2 on the ACTIVE FortiGate"
 }
+variable "ZONE1_SUBNET_3" {
+  type        = string
+  default     = "fgt-1-static-port3-heartbeat"
+  description = "Subnet for the HA heartbeat mechanism. Tied to Port3"
+}
+variable "ZONE1_SUBNET_4" {
+  type        = string
+  default     = "fgt-1-static-port4-mgmt"
+  description = "Subnet used for the HA mangment subnet. Tied to Port4"
+}
+//Second (PASSIVE) FortiGate
 variable "ZONE2_SUBNET_1" {
   type        = string
   default     = ""
@@ -52,6 +63,16 @@ variable "ZONE2_SUBNET_2" {
   default     = ""
   description = "The Secondary, Private Subnet Used for port2 on the PASSIVE FortiGate"
 }
+variable "ZONE2_SUBNET_3" {
+  type        = string
+  default     = "fgt-2-static-port3-heartbeat"
+  description = "Subnet for the HA heartbeat mechanism. Tied to Port3"
+}
+variable "ZONE2_SUBNET_4" {
+  type        = string
+  default     = "fgt-2-static-port4-mgmt"
+  description = "Subnet used for the HA mangment subnet. Tied to Port4"
+}
 variable "NETMASK" {
   type        = string
   default     = "255.255.255.0"
@@ -61,22 +82,47 @@ variable "NETMASK" {
 variable "FGT1_STATIC_IP_PORT1" {
   type        = string
   default     = ""
-  description = "STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port1. This is used for HA SYNC."
+  description = "STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port1. ."
 }
 variable "FGT1_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-  description = "STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port2. If not assigned DHCP will be used."
+  description = "STATIC IP Assignment for PORT2 the Primary (ACTIVE) FortiGate."
 }
+// Used for HA HeartBeat mechnaism.
+variable "FGT1_STATIC_IP_PORT3" {
+  type        = string
+  default     = ""
+  description = "Port used for the HA Heartbeat mechanism."
+}
+// Used as the HA Mangment port.
+variable "FGT1_STATIC_IP_PORT4" {
+  type        = string
+  default     = ""
+  description = "HA mangment port"
+}
+// FortiGate 2 (PASSIVE) PORTS
 variable "FGT2_STATIC_IP_PORT1" {
   type        = string
   default     = ""
-  description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port1. This is used for HA SYNC"
+  description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port1."
 }
 variable "FGT2_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-  description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2. If not assigned DHCP will be used."
+  description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2."
+}
+// Used for HA HeartBeat mechnaism.
+variable "FGT2_STATIC_IP_PORT3" {
+  type        = string
+  default     = ""
+  description = "Port used for the HA Heartbeat mechanism."
+}
+// Used as the HA Mangment port.
+variable "FGT2_STATIC_IP_PORT4" {
+  type        = string
+  default     = ""
+  description = "HA mangment port"
 }
 
 variable "SECURITY_GROUP" {
@@ -108,7 +154,7 @@ resource "random_string" "random_suffix" {
 // 6.4.4 available link: cos://us-geo/fortinet/fortigate_byol_644_b1803_GA.qcow2
 // cos://us-geo/fortinet/fortigate_byol_700_b0066_GA.qcow2 7.0
 variable "image" {
-  default = "cos://us-geo/fortinet/fortigate_byol_644_b1803_GA.qcow2"
+  default = "cos://us-geo/fortinet/fortigate_byol_700_b0066_GA.qcow2"
 }
 variable "IBMCLOUD_API_KEY" {
   default     = ""

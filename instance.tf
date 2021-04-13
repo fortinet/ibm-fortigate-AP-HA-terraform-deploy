@@ -20,6 +20,14 @@ resource "ibm_is_floating_ip" "publicip" {
   name   = "${var.CLUSTER_NAME}-publicip-${random_string.random_suffix.result}"
   target = ibm_is_instance.fgt1.primary_network_interface[0].id
 }
+resource "ibm_is_floating_ip" "publicip2" {
+  name   = "${var.CLUSTER_NAME}-hamgmt-fgt1-${random_string.random_suffix.result}"
+  target = ibm_is_instance.fgt1.network_interfaces[2].id // fourth port.
+}
+resource "ibm_is_floating_ip" "publicip3" {
+  name   = "${var.CLUSTER_NAME}-hamgmt-fgt2-${random_string.random_suffix.result}"
+  target = ibm_is_instance.fgt2.network_interfaces[2].id //fourth port.
+}
 
 //Primary Fortigate
 resource "ibm_is_instance" "fgt1" {
@@ -39,6 +47,22 @@ resource "ibm_is_instance" "fgt1" {
     subnet               = data.ibm_is_subnet.subnet2.id
     security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
     primary_ipv4_address = var.FGT1_STATIC_IP_PORT2
+
+
+  }
+  network_interfaces {
+    name                 = "${var.CLUSTER_NAME}-port3-ha-mgmt-${random_string.random_suffix.result}"
+    subnet               = data.ibm_is_subnet.subnet3.id
+    security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
+    primary_ipv4_address = var.FGT1_STATIC_IP_PORT3
+
+
+  }
+  network_interfaces {
+    name                 = "${var.CLUSTER_NAME}-port4-ha-heartbeat-${random_string.random_suffix.result}"
+    subnet               = data.ibm_is_subnet.subnet4.id
+    security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
+    primary_ipv4_address = var.FGT1_STATIC_IP_PORT4
 
 
   }
@@ -73,6 +97,18 @@ resource "ibm_is_instance" "fgt2" {
     primary_ipv4_address = var.FGT2_STATIC_IP_PORT2
 
   }
+  network_interfaces {
+    name                 = "${var.CLUSTER_NAME}-port3-ha-mgmt-${random_string.random_suffix.result}"
+    subnet               = data.ibm_is_subnet.zone_two_subnet_3.id
+    security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
+    primary_ipv4_address = var.FGT2_STATIC_IP_PORT3
+  }
+  network_interfaces {
+    name                 = "${var.CLUSTER_NAME}-port4-ha-heartbeat-${random_string.random_suffix.result}"
+    subnet               = data.ibm_is_subnet.zone_two_subnet_4.id
+    security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
+    primary_ipv4_address = var.FGT2_STATIC_IP_PORT4
+  }
 
   volumes = [ibm_is_volume.logDisk2.id]
 
@@ -88,11 +124,19 @@ resource "ibm_is_instance" "fgt2" {
 data "template_file" "userdata_active" {
   template = file("user_data_active.conf")
   vars = {
-    fgt_1_active_ip       = var.FGT1_STATIC_IP_PORT1
-    fgt_2_passive_ip      = var.FGT1_STATIC_IP_PORT2
+    fgt_1_static_port1 = var.FGT1_STATIC_IP_PORT1
+    fgt_1_static_port2 = var.FGT1_STATIC_IP_PORT2
+    fgt_1_static_port3 = var.FGT1_STATIC_IP_PORT3
+    fgt_1_static_port4 = var.FGT1_STATIC_IP_PORT4
 
-    ibm_api_key           = var.IBMCLOUD_API_KEY
-    region                = var.REGION
+    fgt_2_static_port1 = var.FGT2_STATIC_IP_PORT1
+    fgt_2_static_port2 = var.FGT2_STATIC_IP_PORT2
+    fgt_2_static_port3 = var.FGT2_STATIC_IP_PORT3
+    fgt_2_static_port4 = var.FGT2_STATIC_IP_PORT4
+
+    netmask     = var.NETMASK
+    ibm_api_key = var.IBMCLOUD_API_KEY
+    region      = var.REGION
   }
 }
 
@@ -100,10 +144,18 @@ data "template_file" "userdata_active" {
 data "template_file" "userdata_passive" {
   template = file("user_data_passive.conf")
   vars = {
-    fgt_1_active_ip        = var.FGT1_STATIC_IP_PORT1
-    fgt_2_passive_ip       = var.FGT1_STATIC_IP_PORT2
+    fgt_1_static_port1 = var.FGT1_STATIC_IP_PORT1
+    fgt_1_static_port2 = var.FGT1_STATIC_IP_PORT2
+    fgt_1_static_port3 = var.FGT1_STATIC_IP_PORT3
+    fgt_1_static_port4 = var.FGT1_STATIC_IP_PORT4
 
-    ibm_api_key            = var.IBMCLOUD_API_KEY
-    region                 = var.REGION
+    fgt_2_static_port1 = var.FGT2_STATIC_IP_PORT1
+    fgt_2_static_port2 = var.FGT2_STATIC_IP_PORT2
+    fgt_2_static_port3 = var.FGT2_STATIC_IP_PORT3
+    fgt_2_static_port4 = var.FGT2_STATIC_IP_PORT4
+
+    netmask     = var.NETMASK
+    ibm_api_key = var.IBMCLOUD_API_KEY
+    region      = var.REGION
   }
 }
