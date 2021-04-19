@@ -30,22 +30,22 @@ variable "VPC" {
 }
 variable "SUBNET_1" {
   type        = string
-  default     = "jcripps-test-subnet-zone1"
+  default     = ""
   description = "The Primary, Public Subnet Used for port1 on the ACTIVE FortiGate"
 }
 variable "SUBNET_2" {
   type        = string
-  default     = "jcripps-test-subnet2-zone1"
+  default     = ""
   description = "The Secondary, Private Subnet Used for port2 on the ACTIVE FortiGate"
 }
 variable "SUBNET_3" {
   type        = string
-  default     = "fgt-1-static-port3-heartbeat"
+  default     = ""
   description = "Subnet for the HA heartbeat mechanism. Tied to Port3"
 }
 variable "SUBNET_4" {
   type        = string
-  default     = "fgt-1-static-port4-mgmt"
+  default     = ""
   description = "Subnet used for the HA mangment subnet. Tied to Port4"
 }
 variable "NETMASK" {
@@ -56,57 +56,57 @@ variable "NETMASK" {
 
 variable "FGT1_STATIC_IP_PORT1" {
   type        = string
-  default     = "10.241.0.20"
+  default     = ""
   description = "STATIC IP Assignment for the Primary (ACTIVE) FortiGate Port1. ."
 }
 variable "FGT1_STATIC_IP_PORT2" {
   type        = string
-  default     = "10.241.1.20"
+  default     = ""
   description = "STATIC IP Assignment for PORT2 the Primary (ACTIVE) FortiGate."
 }
 // Used for HA HeartBeat mechnaism.
 variable "FGT1_STATIC_IP_PORT3" {
   type        = string
-  default     = "10.241.2.10"
+  default     = ""
   description = "Port used for the HA Heartbeat mechanism."
 }
 // Used as the HA Mangment port.
 variable "FGT1_STATIC_IP_PORT4" {
   type        = string
-  default     = "10.241.3.10"
+  default     = ""
   description = "HA mangment port"
 }
 variable "FGT1_PORT4_MGMT_GATEWAY" {
   type        = string
-  default     = "10.241.3.1"
+  default     = ""
   description = "Gateway for the HA mangment port (Port4) on the primary (ACTIVE) FortiGate"
 }
 // FortiGate 2 (PASSIVE) PORTS
 variable "FGT2_STATIC_IP_PORT1" {
   type        = string
-  default     = "10.241.0.21"
+  default     = ""
   description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port1."
 }
 variable "FGT2_STATIC_IP_PORT2" {
   type        = string
-  default     = "10.241.1.21"
+  default     = ""
   description = "STATIC IP Assignment for the Secondary (PASSIVE) FortiGate Port2."
 }
 // Used for HA HeartBeat mechnaism.
 variable "FGT2_STATIC_IP_PORT3" {
   type        = string
-  default     = "10.241.2.21"
+  default     = ""
   description = "Port used for the HA Heartbeat mechanism."
 }
 // Used as the HA Mangment port.
 variable "FGT2_STATIC_IP_PORT4" {
   type        = string
-  default     = "10.241.3.21"
+  default     = ""
   description = "HA mangment port"
 }
 variable "FGT2_PORT4_MGMT_GATEWAY" {
   type        = string
-  default     = "10.241.3.1"
+  default     = ""
   description = "Gateway for the HA mangment port (Port4) on the second (PASSIVE) FortiGate"
 }
 variable "SECURITY_GROUP" {
