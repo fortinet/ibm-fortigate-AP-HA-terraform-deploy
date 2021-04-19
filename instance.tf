@@ -6,14 +6,14 @@ resource "ibm_is_volume" "logDisk1" {
   // Name must be lower case
   name    = "${var.CLUSTER_NAME}-logdisk1-${random_string.random_suffix.result}"
   profile = "10iops-tier"
-  zone    = var.ZONE1
+  zone    = var.ZONE
 }
 
 resource "ibm_is_volume" "logDisk2" {
   // Name must be lower case
   name    = "${var.CLUSTER_NAME}-logdisk2-${random_string.random_suffix.result}"
   profile = "10iops-tier"
-  zone    = var.ZONE2
+  zone    = var.ZONE
 }
 
 resource "ibm_is_floating_ip" "publicip" {
@@ -70,7 +70,7 @@ resource "ibm_is_instance" "fgt1" {
   volumes = [ibm_is_volume.logDisk1.id]
 
   vpc       = data.ibm_is_vpc.vpc1.id
-  zone      = var.ZONE1
+  zone      = var.ZONE
   user_data = data.template_file.userdata_active.rendered
   keys      = [data.ibm_is_ssh_key.ssh_key.id]
 
@@ -84,14 +84,14 @@ resource "ibm_is_instance" "fgt2" {
 
   primary_network_interface {
     name                 = "${var.CLUSTER_NAME}-port1-${random_string.random_suffix.result}"
-    subnet               = data.ibm_is_subnet.zone_two_subnet_1.id
+    subnet               = data.ibm_is_subnet.subnet1.id
     security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
     primary_ipv4_address = var.FGT2_STATIC_IP_PORT1
   }
 
   network_interfaces {
     name   = "${var.CLUSTER_NAME}-port2-${random_string.random_suffix.result}"
-    subnet = data.ibm_is_subnet.zone_two_subnet_2.id
+    subnet = data.ibm_is_subnet.subnet2.id
 
     security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
     primary_ipv4_address = var.FGT2_STATIC_IP_PORT2
@@ -99,13 +99,13 @@ resource "ibm_is_instance" "fgt2" {
   }
   network_interfaces {
     name                 = "${var.CLUSTER_NAME}-port3-ha-mgmt-${random_string.random_suffix.result}"
-    subnet               = data.ibm_is_subnet.zone_two_subnet_3.id
+    subnet               = data.ibm_is_subnet.subnet3.id
     security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
     primary_ipv4_address = var.FGT2_STATIC_IP_PORT3
   }
   network_interfaces {
     name                 = "${var.CLUSTER_NAME}-port4-ha-heartbeat-${random_string.random_suffix.result}"
-    subnet               = data.ibm_is_subnet.zone_two_subnet_4.id
+    subnet               = data.ibm_is_subnet.subnet4.id
     security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
     primary_ipv4_address = var.FGT2_STATIC_IP_PORT4
   }
@@ -113,7 +113,7 @@ resource "ibm_is_instance" "fgt2" {
   volumes = [ibm_is_volume.logDisk2.id]
 
   vpc       = data.ibm_is_vpc.vpc1.id
-  zone      = var.ZONE2
+  zone      = var.ZONE
   user_data = data.template_file.userdata_passive.rendered
   keys      = [data.ibm_is_ssh_key.ssh_key.id]
 }
