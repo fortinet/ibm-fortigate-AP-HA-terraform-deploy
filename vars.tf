@@ -28,26 +28,28 @@ variable "VPC" {
   default     = ""
   description = "Name of the VPC you want to deploy a FortiGate into."
 }
+
 variable "SUBNET_1" {
   type        = string
   default     = ""
-  description = "The Primary, Public Subnet Used for port1 on the ACTIVE FortiGate"
+  description = "The ID of the Primary, Public Subnet Used for port1 on the FortiGate"
 }
 variable "SUBNET_2" {
   type        = string
   default     = ""
-  description = "The Secondary, Private Subnet Used for port2 on the ACTIVE FortiGate"
+  description = "The ID of the Secondary, Private Subnet Used for port2 on the  FortiGate"
 }
 variable "SUBNET_3" {
   type        = string
   default     = ""
-  description = "Subnet for the HA heartbeat mechanism. Tied to Port3"
+  description = "The ID of the Subnet for the HA heartbeat mechanism. Tied to Port3"
 }
 variable "SUBNET_4" {
   type        = string
   default     = ""
-  description = "Subnet used for the HA mangment subnet. Tied to Port4"
+ description = "Subnet used for the HA mangment subnet. Tied to Port4"
 }
+
 variable "NETMASK" {
   type        = string
   default     = "255.255.255.0"
