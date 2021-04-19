@@ -1,10 +1,10 @@
 output "FortiGate_Public_IP" {
   value = ibm_is_floating_ip.publicip.address
 }
-output "FGT2_Public_HA_Mangment_IP" {
+output "FGT1_Public_HA_Mangment_IP" {
   value = ibm_is_floating_ip.publicip2.address
 }
-output "FGT1_Public_HA_Mangment_IP" {
+output "FGT2_Public_HA_Mangment_IP" {
   value = ibm_is_floating_ip.publicip3.address
 }
 output "Custom_Image_Name" {
