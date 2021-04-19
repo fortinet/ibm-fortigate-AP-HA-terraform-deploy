@@ -47,7 +47,7 @@ variable "SUBNET_3" {
 variable "SUBNET_4" {
   type        = string
   default     = ""
- description = "Subnet used for the HA mangment subnet. Tied to Port4"
+ description = "The ID of the Subnet used for the HA mangment subnet. Tied to Port4"
 }
 
 variable "NETMASK" {
