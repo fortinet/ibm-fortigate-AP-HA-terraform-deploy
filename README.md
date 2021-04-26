@@ -24,25 +24,15 @@ Terraform deploys the following components:
 
 # Deployment Diagram
 
-![IBM FortiGate Diagram](https://raw.githubusercontent.com/fortinet/ibm-fortigate-terraform-deploy/main/imgs/IBM_ha-diagram-singlezone.png)
+![IBM FortiGate Diagram](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha-diagram-singlezone.png)
 
 ## Deployment
 
-1. From the IBM console navitagte to Schematics.
-2. Fill in the workspace info and create your workspace.
-3. Copy the repo URL into repository URL field and then select Terraform version 0.13.
+> **Note** For Subnets, put the UUID of the subnet. Not the name.
 
-    ![IBM FortiGate Deploy](./imgs/step_3.png)
-
-4. Add in your ssh key and adjust any Variables as needed in the settings.
-
-    ![IBM FortiGate Deploy](./imgs/step_4.png)
-
-5. Apply the plan.
-6. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
-
-    ![IBM FortiGate Deploy](./imgs/step_6_a.png)
-    ![IBM FortiGate Deploy](./imgs/step_6_b.png)
+1. Fill in the required Subnets, security group and VPC info.
+2. Apply the plan.
+3. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
 
 ## Destroy the cluster
 
