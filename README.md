@@ -1,15 +1,15 @@
-# ibm-fortigate-terraform-deploy
-
-FortiGate IBM Deployment Template.
-
 ## Description
 
-A Terraform script to deploy a single FortiGate in IBM Cloud using the Schematics service.
+A Terraform script to deploy an Acitve-Passive (A-P) HA cluster in a single Zone. This template makes use of the FortiGate IBM SDN connector to failover in the event of a VM shutdown.
+After the Active VM is brought back up, it will take over as active once again.
 
 ## Requirements
 
 -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) 0.13+
--   FortiOS 6.4.3 BYOL License.
+-   Two FortiOS 7.0 BYOL Licenses.
+-   A VPC with four subnets in a single zone.
+-   An IBM ssh key configured.
+-   A security group
 
 ## Deployment overview
 
@@ -17,12 +17,14 @@ A Terraform script to deploy a single FortiGate in IBM Cloud using the Schematic
 
 Terraform deploys the following components:
 
--   A VPC with two subnets
--   A FortiGate BYOL instance with two NICs, one in each subnet
--   A security group with no restrictions
--   A Floating Public IP address attached to the FortiGate
--   A Logging disk
--   A basic bootstrap, including license if supplied.
+-   Two FortiGate BYOL instances with four NICs, one in each subnet
+-   Three Floating Public IPs: One attached to the Primary FortiGate on Port1, which will failover. One attached, per FortiGate to the HA management port (Port4).
+-   A Logging disk per FortiGate
+-   A basic bootstrap config, with HA support.
+
+# Deployment Diagram
+
+![IBM FortiGate Diagram](https://raw.githubusercontent.com/fortinet/ibm-fortigate-terraform-deploy/main/imgs/IBM_ha-diagram-singlezone.png)
 
 ## Deployment
 
