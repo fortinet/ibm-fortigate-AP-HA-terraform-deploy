@@ -1,26 +1,26 @@
 ## Description
 
 A Terraform script to deploy an Acitve-Passive (A-P) HA cluster in a single Zone. This template makes use of the FortiGate IBM SDN connector to failover in the event of a VM shutdown.
-After the Active VM is brought back up, it will take over as active once again.
+After the active VM is back up, it will take over as active once again.
 
 ## Requirements
 
 -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) 0.13+
--   Two FortiOS 7.0 BYOL Licenses.
+-   Two FortiOS 7.0 BYOL licenses.
 -   A VPC with four subnets in a single zone.
 -   An IBM ssh key configured.
 -   A security group
 
 ## Deployment overview
 
-> **Note:** For a local deployment a Gen 2 API key will be needed. For details see: [IBM Gen 2 API key](https://cloud.ibm.com/docs/terraform?topic=terraform-provider-reference)
+> **Note:** For a local deployment, a Gen 2 API key will be needed. For details see: [IBM Gen 2 API key](https://cloud.ibm.com/docs/terraform?topic=terraform-provider-reference).
 
 Terraform deploys the following components:
 
--   Two FortiGate BYOL instances with four NICs, one in each subnet
--   Three Floating Public IPs: One attached to the Primary FortiGate on Port1, which will failover. One attached, per FortiGate to the HA management port (Port4).
--   A Logging disk per FortiGate
--   A basic bootstrap config, with HA support.
+-   Two FortiGate BYOL instances with four NICs each, one in each subnet.
+-   Three floating Public IP addresses: one attached to the Primary FortiGate on Port1, which will failover and the other two attached to the HA management port (Port4) of each FortiGate.
+-   One log disk per FortiGate.
+-   A basic bootstrap configuration with HA support.
 
 # Deployment Diagram
 
@@ -28,15 +28,15 @@ Terraform deploys the following components:
 
 ## Deployment
 
-> **Note** For Subnets, put the UUID of the subnet. Not the name.
+> **Note:** For Subnets, the UUID is required.
 
-1. Fill in the required Subnets, security group and VPC info.
+1. Fill in the required Subnets, security group and VPC information.
 2. Apply the plan.
 3. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
 
 ## Destroy the cluster
 
-To destroy the cluster, click on `Actions...`->`Destroy`
+To destroy the cluster, click on `Actions...`->`Destroy`.
 
 ![IBM FortiGate Deploy](./imgs/destroy_cluster.png)
 
