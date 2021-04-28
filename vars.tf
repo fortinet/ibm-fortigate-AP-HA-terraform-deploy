@@ -47,7 +47,7 @@ variable "SUBNET_3" {
 variable "SUBNET_4" {
   type        = string
   default     = ""
- description = "The ID of the Subnet used for the HA mangment subnet. Tied to Port4"
+ description = "The ID of the Subnet used for the HA management subnet. Tied to Port4"
 }
 
 variable "NETMASK" {
@@ -100,11 +100,11 @@ variable "FGT2_STATIC_IP_PORT3" {
   default     = ""
   description = "Port used for the HA Heartbeat mechanism."
 }
-// Used as the HA Mangment port.
+// Used as the HA management port.
 variable "FGT2_STATIC_IP_PORT4" {
   type        = string
   default     = ""
-  description = "HA mangment port"
+  description = "HA management port"
 }
 variable "FGT2_PORT4_MGMT_GATEWAY" {
   type        = string
