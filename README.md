@@ -31,11 +31,11 @@ Terraform deploys the following components:
 > **Note:** For Subnets, the UUID is required.
 
 1. Fill in the required Subnets, security group and VPC information as shown in the example below:
-2. ```
+
 
    ![IBM FortiGate Example Inputs](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha_example.png)
 
-   ```
+  
 
 3. Apply the plan.
 4. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
@@ -43,8 +43,6 @@ Terraform deploys the following components:
 ## Destroy the cluster
 
 To destroy the cluster, click on `Actions...`->`Destroy`.
-
-![IBM FortiGate Deploy](./imgs/destroy_cluster.png)
 
 # Support
 
