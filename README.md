@@ -1,50 +1,48 @@
-# ibm-fortigate-terraform-deploy
-
-FortiGate IBM Deployment Template.
-
 ## Description
 
-A Terraform script to deploy a single FortiGate in IBM Cloud using the Schematics service.
+A Terraform script to deploy an Active-Passive (A-P) HA cluster in a single zone. This template makes use of the FortiGate IBM SDN connector to failover in the event of a VM shutdown.
+After the active VM is back up, it will take over as active once again.
 
 ## Requirements
 
 -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) 0.13+
--   FortiOS 6.4.3 BYOL License.
+-   Two FortiOS 7.0 BYOL Licenses.
+-   [A VPC with four subnets in a single zone](https://cloud.ibm.com/docs/vpc/vpc-getting-started-with-ibm-cloud-virtual-private-cloud-infrastructure)
+-   [A configured IBM SSH key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)
+-   [A security group](https://cloud.ibm.com/docs/security-groups?topic=security-groups-about-ibm-security-groups)
 
 ## Deployment overview
 
-> **Note:** For a local deployment a Gen 2 API key will be needed. For details see: [IBM Gen 2 API key](https://cloud.ibm.com/docs/terraform?topic=terraform-provider-reference)
+> **Note:** For a local deployment, a Gen 2 API key will be needed. For details see [IBM Gen 2 API key](https://cloud.ibm.com/docs/terraform?topic=terraform-provider-reference).
 
 Terraform deploys the following components:
 
--   A VPC with two subnets
--   A FortiGate BYOL instance with two NICs, one in each subnet
--   A security group with no restrictions
--   A Floating Public IP address attached to the FortiGate
--   A Logging disk
--   A basic bootstrap, including license if supplied.
+-   Two FortiGate BYOL instances with four NICs each, one in each subnet.
+-   Three floating Public IP addresses: one attached to the Primary FortiGate on Port1, which will failover and the other two attached to the HA management port (Port4) of each FortiGate.
+-   One log disk per FortiGate.
+-   A basic bootstrap configuration with HA support.
+
+# Deployment Diagram
+
+![IBM FortiGate Diagram](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha-diagram-singlezone.png)
 
 ## Deployment
 
-1. From the IBM console navitagte to Schematics.
-2. Fill in the workspace info and create your workspace.
-3. Copy the repo URL into repository URL field and then select Terraform version 0.13.
+> **Note:** For Subnets, the UUID is required.
 
-    ![IBM FortiGate Deploy](./imgs/step_3.png)
+1. Fill in the required Subnets, security group and VPC information as shown in the example below:
+2. ```
 
-4. Add in your ssh key and adjust any Variables as needed in the settings.
+   ![IBM FortiGate Example Inputs](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha_example.png)
 
-    ![IBM FortiGate Deploy](./imgs/step_4.png)
+   ```
 
-5. Apply the plan.
-6. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
-
-    ![IBM FortiGate Deploy](./imgs/step_6_a.png)
-    ![IBM FortiGate Deploy](./imgs/step_6_b.png)
+3. Apply the plan.
+4. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
 
 ## Destroy the cluster
 
-To destroy the cluster, click on `Actions...`->`Destroy`
+To destroy the cluster, click on `Actions...`->`Destroy`.
 
 ![IBM FortiGate Deploy](./imgs/destroy_cluster.png)
 
