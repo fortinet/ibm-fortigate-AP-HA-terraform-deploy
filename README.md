@@ -30,7 +30,10 @@ Terraform deploys the following components:
 
 > **Note:** For Subnets, the UUID is required.
 
-1. Fill in the required Subnets, security group and VPC information.
+1. Fill in the required Subnets, security group and VPC information. See Example:
+
+    ![IBM FortiGate Example Inputs](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha_example.png)
+
 2. Apply the plan.
 3. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
 
