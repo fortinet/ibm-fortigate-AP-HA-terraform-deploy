@@ -119,7 +119,7 @@ variable "SECURITY_GROUP" {
 
 
 // For easy identification, the name of the cluster uses the format cluster-name-resource-randomSuffix."
-// Name must be lowercase
+// Name must be lowercase.
 variable "CLUSTER_NAME" {
   type        = string
   default     = "fortigate-terraform"
