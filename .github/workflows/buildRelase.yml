@@ -1,0 +1,32 @@
+name: 'Build IBM release'
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+            - uses: actions/checkout@v2
+
+            - name: 'Make the Distribution Directory'
+              run: |
+                  mkdir  ibm-fortigate-AP-HA-terraform-deploy
+            - name: 'Copy the files'
+              run: |
+                  cp *.tf *.conf LICENSE README.md ./ibm-fortigate-AP-HA-terraform-deploy/
+            - name: 'Build the ZIP'
+              run: |
+                  tar -czf ibm-fortigate-terraform-deploy-AP-HA.tar.gz ibm-fortigate-AP-HA-terraform-deploy/
+            - uses: 'marvinpinto/action-automatic-releases@latest'
+              with:
+                  repo_token: '${{ secrets.IBM_TOKEN }}'
+                  automatic_release_tag: 'latest'
+                  prerelease: false
+                  title: 'ibm-fortigate-terraform-deploy-AP-HA.'
+                  files: |
+                      ibm-fortigate-terraform-deploy-AP-HA.tar.gz
