@@ -32,22 +32,22 @@ variable "VPC" {
 variable "SUBNET_1" {
   type        = string
   default     = ""
-  description = "The ID of the Primary, Public Subnet Used for port1 on the FortiGate"
+  description = "The ID of the Primary, Public Subnet Used for port1 on the FortiGate."
 }
 variable "SUBNET_2" {
   type        = string
   default     = ""
-  description = "The ID of the Secondary, Private Subnet Used for port2 on the  FortiGate"
+  description = "The ID of the Secondary, Private Subnet Used for port2 on the FortiGate."
 }
 variable "SUBNET_3" {
   type        = string
   default     = ""
-  description = "The ID of the Subnet for the HA heartbeat mechanism. Tied to Port3"
+  description = "The ID of the Subnet for the HA heartbeat mechanism. Tied to Port3."
 }
 variable "SUBNET_4" {
   type        = string
   default     = ""
- description = "The ID of the Subnet used for the HA management subnet. Tied to Port4"
+ description = "The ID of the Subnet used for the HA management subnet. Tied to Port4."
 }
 
 variable "NETMASK" {
@@ -76,7 +76,7 @@ variable "FGT1_STATIC_IP_PORT3" {
 variable "FGT1_STATIC_IP_PORT4" {
   type        = string
   default     = ""
-  description = "HA management port"
+  description = "HA management port."
 }
 variable "FGT1_PORT4_MGMT_GATEWAY" {
   type        = string
