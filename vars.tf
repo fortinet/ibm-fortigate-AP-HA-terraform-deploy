@@ -114,7 +114,7 @@ variable "FGT2_PORT4_MGMT_GATEWAY" {
 variable "SECURITY_GROUP" {
   type        = string
   default     = ""
-  description = "The Security Group to attach to the FortiGate Instance Network Interfaces."
+  description = "The Security Group to attach to the FortiGate instance Network Interfaces."
 }
 
 
