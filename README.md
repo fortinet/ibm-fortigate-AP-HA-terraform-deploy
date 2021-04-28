@@ -1,6 +1,6 @@
 ## Description
 
-A Terraform script to deploy an Acitve-Passive (A-P) HA cluster in a single Zone. This template makes use of the FortiGate IBM SDN connector to failover in the event of a VM shutdown.
+A Terraform script to deploy an Active-Passive (A-P) HA cluster in a single Zone. This template makes use of the FortiGate IBM SDN connector to failover in the event of a VM shutdown.
 After the Active VM is brought back up, it will take over as active once again.
 
 ## Requirements
