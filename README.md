@@ -8,7 +8,7 @@ After the active VM is back up, it will take over as active once again.
 -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) 0.13+
 -   Two FortiOS 7.0 BYOL licenses.
 -   A VPC with four subnets in a single zone.
--   An IBM ssh key configured.
+-   A configured IBM SSH key.
 -   A security group
 
 ## Deployment overview
