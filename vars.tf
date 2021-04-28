@@ -104,7 +104,7 @@ variable "FGT2_STATIC_IP_PORT3" {
 variable "FGT2_STATIC_IP_PORT4" {
   type        = string
   default     = ""
-  description = "HA management port"
+  description = "HA management port."
 }
 variable "FGT2_PORT4_MGMT_GATEWAY" {
   type        = string
