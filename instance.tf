@@ -98,13 +98,13 @@ resource "ibm_is_instance" "fgt2" {
 
   }
   network_interfaces {
-    name                 = "${var.CLUSTER_NAME}-port3-ha-mgmt-${random_string.random_suffix.result}"
+    name                 = "${var.CLUSTER_NAME}-port3-ha-heartbeat-${random_string.random_suffix.result}"
     subnet               = data.ibm_is_subnet.subnet3.id
     security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
     primary_ipv4_address = var.FGT2_STATIC_IP_PORT3
   }
   network_interfaces {
-    name                 = "${var.CLUSTER_NAME}-port4-ha-heartbeat-${random_string.random_suffix.result}"
+    name                 = "${var.CLUSTER_NAME}-port4-ha-mgmt-${random_string.random_suffix.result}"
     subnet               = data.ibm_is_subnet.subnet4.id
     security_groups      = [data.ibm_is_security_group.fgt_security_group.id]
     primary_ipv4_address = var.FGT2_STATIC_IP_PORT4
