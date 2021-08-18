@@ -35,6 +35,7 @@ resource "ibm_is_instance" "fgt1" {
   image   = ibm_is_image.vnf_custom_image.id
   profile = var.PROFILE
 
+
   primary_network_interface {
     name                 = "${var.CLUSTER_NAME}-port1-${random_string.random_suffix.result}"
     subnet               = data.ibm_is_subnet.subnet1.id
@@ -73,7 +74,15 @@ resource "ibm_is_instance" "fgt1" {
   zone      = var.ZONE
   user_data = data.template_file.userdata_active.rendered
   keys      = [data.ibm_is_ssh_key.ssh_key.id]
-
+// Timeout issues persist. See https://www.ibm.com/cloud/blog/timeout-errors-with-ibm-cloud-schematics
+  timeouts {
+    create = "60m"
+    update = "60m"
+    delete = "60m"
+  }
+  // Force IBM to recover from perpetual 'starting state' see:
+  // https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/is_instance#force_recovery_time
+  force_recovery_time = 20
 }
 
 // Secondary FortiGate
@@ -116,6 +125,15 @@ resource "ibm_is_instance" "fgt2" {
   zone      = var.ZONE
   user_data = data.template_file.userdata_passive.rendered
   keys      = [data.ibm_is_ssh_key.ssh_key.id]
+  //Timeout issues persist. See https://www.ibm.com/cloud/blog/timeout-errors-with-ibm-cloud-schematics
+  timeouts {
+    create = "60m"
+    update = "60m"
+    delete = "60m"
+  }
+  // Force IBM to recover from perpetual 'starting state' see:
+  // https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/is_instance#force_recovery_time
+  force_recovery_time = 20
 }
 
 // Use for bootstrapping cloud-init

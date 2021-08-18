@@ -8,7 +8,7 @@ resource "ibm_is_image" "vnf_custom_image" {
 
 
   timeouts {
-    create = "30m"
-    delete = "10m"
+    create = "60m"
+    delete = "20m"
   }
 }
