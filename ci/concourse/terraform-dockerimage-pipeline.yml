@@ -1,0 +1,191 @@
+resources:
+- name: terraform-ibm-ha-repo
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/fshuva/ibm-fortigate-AP-HA-terraform-deploy.git
+- name: terraform-0-13-7
+  type: docker-image
+  source:
+    repository: hashicorp/terraform
+    tag: 0.13.7
+
+jobs:
+- name: terraform-deployment-pipeline
+  plan:
+  - get: terraform-0-13-7
+  - get: terraform-ibm-ha-repo
+    trigger: true
+
+  - task: terraform-init
+    image: terraform-0-13-7
+    config:
+      inputs:
+      - name: terraform-ibm-ha-repo
+      outputs:
+      - name: terraform-ibm-ha-repo
+      platform: linux
+      run:
+        path: terraform
+        dir: terraform-ibm-ha-repo
+        args:
+        - init
+
+  - task: terraform-plan
+    image: terraform-0-13-7
+    config:
+      inputs:
+      - name: terraform-ibm-ha-repo
+      outputs:
+      - name: terraform-ibm-ha-repo
+      platform: linux
+      run:
+        path: terraform
+        dir: terraform-ibm-ha-repo
+        args:
+          - plan
+          - -var
+          - SSH_PUBLIC_KEY=((sshpublickey))
+          - -var
+          - VPC=fshuva-vpc-dc
+          - -var
+          - SUBNET_1=0757-6a338c20-a34c-49ae-ab15-d5c35f0d1551
+          - -var
+          - SUBNET_2=0757-58475161-9cd7-4f4b-a4d6-fa5aa5460974
+          - -var
+          - SUBNET_3=0757-922d90b4-5e3f-4906-8c0a-0d5e3b93e2d7
+          - -var
+          - SUBNET_4=0757-83b88be1-68d7-414f-bd3f-65050bf9b572
+          - -var
+          - FGT1_STATIC_IP_PORT1=10.241.0.11
+          - -var
+          - FGT1_STATIC_IP_PORT2=10.241.1.11
+          - -var
+          - FGT1_STATIC_IP_PORT3=10.241.2.11
+          - -var
+          - FGT1_STATIC_IP_PORT4=10.241.3.11
+          - -var
+          - FGT1_PORT4_MGMT_GATEWAY=10.241.3.1
+          - -var
+          - FGT2_STATIC_IP_PORT1=10.241.0.12
+          - -var
+          - FGT2_STATIC_IP_PORT2=10.241.1.12
+          - -var
+          - FGT2_STATIC_IP_PORT3=10.241.2.12
+          - -var
+          - FGT2_STATIC_IP_PORT4=10.241.3.12
+          - -var
+          - FGT2_PORT4_MGMT_GATEWAY=10.241.3.1
+          - -var
+          - SECURITY_GROUP=pushcart-unscathed-jaundice-cursor
+          - -var
+          - CLUSTER_NAME=fortigate-ha-ap-actions-cli
+          - -var
+          - IBMCLOUD_API_KEY=((ibmcloudapikey))
+
+  - task: terraform-apply
+    image: terraform-0-13-7
+    config:
+      inputs:
+      - name: terraform-ibm-ha-repo
+      outputs:
+      - name: terraform-ibm-ha-repo
+      platform: linux
+      run:
+        path: terraform
+        dir: terraform-ibm-ha-repo
+        args:
+          - apply
+          - -auto-approve
+          - -var
+          - SSH_PUBLIC_KEY=((sshpublickey))
+          - -var
+          - VPC=fshuva-vpc-dc
+          - -var
+          - SUBNET_1=0757-6a338c20-a34c-49ae-ab15-d5c35f0d1551
+          - -var
+          - SUBNET_2=0757-58475161-9cd7-4f4b-a4d6-fa5aa5460974
+          - -var
+          - SUBNET_3=0757-922d90b4-5e3f-4906-8c0a-0d5e3b93e2d7
+          - -var
+          - SUBNET_4=0757-83b88be1-68d7-414f-bd3f-65050bf9b572
+          - -var
+          - FGT1_STATIC_IP_PORT1=10.241.0.11
+          - -var
+          - FGT1_STATIC_IP_PORT2=10.241.1.11
+          - -var
+          - FGT1_STATIC_IP_PORT3=10.241.2.11
+          - -var
+          - FGT1_STATIC_IP_PORT4=10.241.3.11
+          - -var
+          - FGT1_PORT4_MGMT_GATEWAY=10.241.3.1
+          - -var
+          - FGT2_STATIC_IP_PORT1=10.241.0.12
+          - -var
+          - FGT2_STATIC_IP_PORT2=10.241.1.12
+          - -var
+          - FGT2_STATIC_IP_PORT3=10.241.2.12
+          - -var
+          - FGT2_STATIC_IP_PORT4=10.241.3.12
+          - -var
+          - FGT2_PORT4_MGMT_GATEWAY=10.241.3.1
+          - -var
+          - SECURITY_GROUP=pushcart-unscathed-jaundice-cursor
+          - -var
+          - CLUSTER_NAME=fortigate-ha-ap-actions-cli
+          - -var
+          - IBMCLOUD_API_KEY=((ibmcloudapikey))
+
+
+  - task: terraform-destroy
+    image: terraform-0-13-7
+    config:
+      inputs:
+      - name: terraform-ibm-ha-repo
+      outputs:
+      - name: terraform-ibm-ha-repo
+      platform: linux
+      run:
+        path: terraform
+        dir: terraform-ibm-ha-repo
+        args:
+          - destroy
+          - -auto-approve
+          - -var
+          - SSH_PUBLIC_KEY=((sshpublickey))
+          - -var
+          - VPC=fshuva-vpc-dc
+          - -var
+          - SUBNET_1=0757-6a338c20-a34c-49ae-ab15-d5c35f0d1551
+          - -var
+          - SUBNET_2=0757-58475161-9cd7-4f4b-a4d6-fa5aa5460974
+          - -var
+          - SUBNET_3=0757-922d90b4-5e3f-4906-8c0a-0d5e3b93e2d7
+          - -var
+          - SUBNET_4=0757-83b88be1-68d7-414f-bd3f-65050bf9b572
+          - -var
+          - FGT1_STATIC_IP_PORT1=10.241.0.11
+          - -var
+          - FGT1_STATIC_IP_PORT2=10.241.1.11
+          - -var
+          - FGT1_STATIC_IP_PORT3=10.241.2.11
+          - -var
+          - FGT1_STATIC_IP_PORT4=10.241.3.11
+          - -var
+          - FGT1_PORT4_MGMT_GATEWAY=10.241.3.1
+          - -var
+          - FGT2_STATIC_IP_PORT1=10.241.0.12
+          - -var
+          - FGT2_STATIC_IP_PORT2=10.241.1.12
+          - -var
+          - FGT2_STATIC_IP_PORT3=10.241.2.12
+          - -var
+          - FGT2_STATIC_IP_PORT4=10.241.3.12
+          - -var
+          - FGT2_PORT4_MGMT_GATEWAY=10.241.3.1
+          - -var
+          - SECURITY_GROUP=pushcart-unscathed-jaundice-cursor
+          - -var
+          - CLUSTER_NAME=fortigate-ha-ap-actions-cli
+          - -var
+          - IBMCLOUD_API_KEY=((ibmcloudapikey))

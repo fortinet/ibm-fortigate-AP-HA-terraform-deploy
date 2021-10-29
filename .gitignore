@@ -27,3 +27,6 @@ azure_funcapp/host.json
 
 # aws_cloudformation
 autoscale_params.txt
+
+#ci
+ci/concourse/vars.yml
