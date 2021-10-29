@@ -1,0 +1,20 @@
+---
+sshpublickey: fshuva-pub
+vpc: fshuva-vpc-dc
+subnet_1: 0757-6a338c20-a34c-49ae-ab15-d5c35f0d1551
+subnet_2: 0757-58475161-9cd7-4f4b-a4d6-fa5aa5460974
+subnet_3: 0757-922d90b4-5e3f-4906-8c0a-0d5e3b93e2d7
+subnet_4: 0757-83b88be1-68d7-414f-bd3f-65050bf9b572
+fgt1_static_ip_port1: 10.241.0.11
+fgt1_static_ip_port2: 10.241.1.11
+fgt1_static_ip_port3: 10.241.2.11
+fgt1_static_ip_port4: 10.241.3.11
+fgt1_port4_mgmt_gateway: 10.241.3.1
+fgt2_static_ip_port1: 10.241.0.12
+fgt2_static_ip_port2: 10.241.1.12
+fgt2_static_ip_port3: 10.241.2.12
+fgt2_static_ip_port4: 10.241.3.12
+fgt2_port4_mgmt_gateway: 10.241.3.1
+security_group: pushcart-unscathed-jaundice-cursor
+cluster_name: fortigate-ha-ap-concourse
+ibmcloudapikey: WvwShdbnAbt3MxXNgUk0oOIhN16wbpcQ9JLQL-Q5KHRA
