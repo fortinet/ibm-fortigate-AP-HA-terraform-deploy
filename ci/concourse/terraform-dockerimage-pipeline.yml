@@ -4,6 +4,7 @@ resources:
   icon: github
   source:
     uri: https://github.com/fshuva/ibm-fortigate-AP-HA-terraform-deploy.git
+    branch: concourse_setup
 - name: terraform-0-13-7
   type: docker-image
   source:
@@ -45,7 +46,7 @@ jobs:
         args:
           - plan
           - -var
-          - SSH_PUBLIC_KEY=((sshpublickey))
+          - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
           - -var
           - VPC=fshuva-vpc-dc
           - -var
@@ -77,11 +78,11 @@ jobs:
           - -var
           - FGT2_PORT4_MGMT_GATEWAY=10.241.3.1
           - -var
-          - SECURITY_GROUP=pushcart-unscathed-jaundice-cursor
+          - SECURITY_GROUP=((ibm_ci.security_group))
           - -var
           - CLUSTER_NAME=fortigate-ha-ap-actions-cli
           - -var
-          - IBMCLOUD_API_KEY=((ibmcloudapikey))
+          - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
 
   - task: terraform-apply
     image: terraform-0-13-7
@@ -98,7 +99,7 @@ jobs:
           - apply
           - -auto-approve
           - -var
-          - SSH_PUBLIC_KEY=((sshpublickey))
+          - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
           - -var
           - VPC=fshuva-vpc-dc
           - -var
@@ -130,12 +131,11 @@ jobs:
           - -var
           - FGT2_PORT4_MGMT_GATEWAY=10.241.3.1
           - -var
-          - SECURITY_GROUP=pushcart-unscathed-jaundice-cursor
+          - SECURITY_GROUP=((ibm_ci.security_group))
           - -var
           - CLUSTER_NAME=fortigate-ha-ap-actions-cli
           - -var
-          - IBMCLOUD_API_KEY=((ibmcloudapikey))
-
+          - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
 
   - task: terraform-destroy
     image: terraform-0-13-7
@@ -152,7 +152,7 @@ jobs:
           - destroy
           - -auto-approve
           - -var
-          - SSH_PUBLIC_KEY=((sshpublickey))
+          - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
           - -var
           - VPC=fshuva-vpc-dc
           - -var
@@ -184,8 +184,8 @@ jobs:
           - -var
           - FGT2_PORT4_MGMT_GATEWAY=10.241.3.1
           - -var
-          - SECURITY_GROUP=pushcart-unscathed-jaundice-cursor
+          - SECURITY_GROUP=((ibm_ci.security_group))
           - -var
           - CLUSTER_NAME=fortigate-ha-ap-actions-cli
           - -var
-          - IBMCLOUD_API_KEY=((ibmcloudapikey))
+          - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
