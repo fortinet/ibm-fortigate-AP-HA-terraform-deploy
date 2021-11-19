@@ -50,13 +50,13 @@ jobs:
           - -var
           - VPC=fshuva-vpc-dc
           - -var
-          - SUBNET_1=0757-6a338c20-a34c-49ae-ab15-d5c35f0d1551
+          - SUBNET_1=((ibm_ci.subnet_1_dc))
           - -var
-          - SUBNET_2=0757-58475161-9cd7-4f4b-a4d6-fa5aa5460974
+          - SUBNET_2=((ibm_ci.subnet_2_dc))
           - -var
-          - SUBNET_3=0757-922d90b4-5e3f-4906-8c0a-0d5e3b93e2d7
+          - SUBNET_3=((ibm_ci.subnet_3_dc))
           - -var
-          - SUBNET_4=0757-83b88be1-68d7-414f-bd3f-65050bf9b572
+          - SUBNET_4=((ibm_ci.subnet_4_dc))
           - -var
           - FGT1_STATIC_IP_PORT1=10.241.0.11
           - -var
@@ -103,13 +103,13 @@ jobs:
           - -var
           - VPC=fshuva-vpc-dc
           - -var
-          - SUBNET_1=0757-6a338c20-a34c-49ae-ab15-d5c35f0d1551
+          - SUBNET_1=((ibm_ci.subnet_1_dc))
           - -var
-          - SUBNET_2=0757-58475161-9cd7-4f4b-a4d6-fa5aa5460974
+          - SUBNET_2=((ibm_ci.subnet_2_dc))
           - -var
-          - SUBNET_3=0757-922d90b4-5e3f-4906-8c0a-0d5e3b93e2d7
+          - SUBNET_3=((ibm_ci.subnet_3_dc))
           - -var
-          - SUBNET_4=0757-83b88be1-68d7-414f-bd3f-65050bf9b572
+          - SUBNET_4=((ibm_ci.subnet_4_dc))
           - -var
           - FGT1_STATIC_IP_PORT1=10.241.0.11
           - -var
@@ -156,13 +156,13 @@ jobs:
           - -var
           - VPC=fshuva-vpc-dc
           - -var
-          - SUBNET_1=0757-6a338c20-a34c-49ae-ab15-d5c35f0d1551
+          - SUBNET_1=((ibm_ci.subnet_1_dc))
           - -var
-          - SUBNET_2=0757-58475161-9cd7-4f4b-a4d6-fa5aa5460974
+          - SUBNET_2=((ibm_ci.subnet_2_dc))
           - -var
-          - SUBNET_3=0757-922d90b4-5e3f-4906-8c0a-0d5e3b93e2d7
+          - SUBNET_3=((ibm_ci.subnet_3_dc))
           - -var
-          - SUBNET_4=0757-83b88be1-68d7-414f-bd3f-65050bf9b572
+          - SUBNET_4=((ibm_ci.subnet_4_dc))
           - -var
           - FGT1_STATIC_IP_PORT1=10.241.0.11
           - -var
