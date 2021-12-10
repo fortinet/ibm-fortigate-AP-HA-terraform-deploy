@@ -1,191 +1,191 @@
 resources:
-- name: terraform-ibm-ha-repo
-  type: git
-  icon: github
-  source:
-    uri: https://github.com/fshuva/ibm-fortigate-AP-HA-terraform-deploy.git
-    branch: concourse_setup
-- name: terraform-0-13-7
-  type: docker-image
-  source:
-    repository: hashicorp/terraform
-    tag: 0.13.7
+    - name: terraform-ibm-ha-repo
+      type: git
+      icon: github
+      source:
+          uri: https://github.com/fshuva/ibm-fortigate-AP-HA-terraform-deploy.git
+          branch: concourse_setup
+    - name: terraform-0-13-7
+      type: registry-image
+      source:
+          repository: hashicorp/terraform
+          tag: 0.13.7
 
 jobs:
-- name: terraform-deployment-pipeline
-  plan:
-  - get: terraform-0-13-7
-  - get: terraform-ibm-ha-repo
-    trigger: true
+    - name: terraform-deployment-pipeline
+      plan:
+          - get: terraform-0-13-7
+          - get: terraform-ibm-ha-repo
+            trigger: true
 
-  - task: terraform-init
-    image: terraform-0-13-7
-    config:
-      inputs:
-      - name: terraform-ibm-ha-repo
-      outputs:
-      - name: terraform-ibm-ha-repo
-      platform: linux
-      run:
-        path: terraform
-        dir: terraform-ibm-ha-repo
-        args:
-        - init
+          - task: terraform-init
+            image: terraform-0-13-7
+            config:
+                inputs:
+                    - name: terraform-ibm-ha-repo
+                outputs:
+                    - name: terraform-ibm-ha-repo
+                platform: linux
+                run:
+                    path: terraform
+                    dir: terraform-ibm-ha-repo
+                    args:
+                        - init
 
-  - task: terraform-plan
-    image: terraform-0-13-7
-    config:
-      inputs:
-      - name: terraform-ibm-ha-repo
-      outputs:
-      - name: terraform-ibm-ha-repo
-      platform: linux
-      run:
-        path: terraform
-        dir: terraform-ibm-ha-repo
-        args:
-          - plan
-          - -var
-          - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
-          - -var
-          - VPC=((ibm_ci.vpc))
-          - -var
-          - SUBNET_1=((ibm_ci.subnet_1_dc))
-          - -var
-          - SUBNET_2=((ibm_ci.subnet_2_dc))
-          - -var
-          - SUBNET_3=((ibm_ci.subnet_3_dc))
-          - -var
-          - SUBNET_4=((ibm_ci.subnet_4_dc))
-          - -var
-          - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
-          - -var
-          - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
-          - -var
-          - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
-          - -var
-          - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
-          - -var
-          - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
-          - -var
-          - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1)
-          - -var
-          - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2)
-          - -var
-          - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3)
-          - -var
-          - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
-          - -var
-          - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
-          - -var
-          - SECURITY_GROUP=((ibm_ci.security_group))
-          - -var
-          - CLUSTER_NAME=fgt-ha-ap-concourse-ci
-          - -var
-          - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
+          - task: terraform-plan
+            image: terraform-0-13-7
+            config:
+                inputs:
+                    - name: terraform-ibm-ha-repo
+                outputs:
+                    - name: terraform-ibm-ha-repo
+                platform: linux
+                run:
+                    path: terraform
+                    dir: terraform-ibm-ha-repo
+                    args:
+                        - plan
+                        - -var
+                        - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
+                        - -var
+                        - VPC=((ibm_ci.vpc))
+                        - -var
+                        - SUBNET_1=((ibm_ci.subnet_1_dc))
+                        - -var
+                        - SUBNET_2=((ibm_ci.subnet_2_dc))
+                        - -var
+                        - SUBNET_3=((ibm_ci.subnet_3_dc))
+                        - -var
+                        - SUBNET_4=((ibm_ci.subnet_4_dc))
+                        - -var
+                        - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
+                        - -var
+                        - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
+                        - -var
+                        - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
+                        - -var
+                        - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
+                        - -var
+                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
+                        - -var
+                        - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1)
+                        - -var
+                        - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2)
+                        - -var
+                        - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3)
+                        - -var
+                        - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
+                        - -var
+                        - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+                        - -var
+                        - SECURITY_GROUP=((ibm_ci.security_group))
+                        - -var
+                        - CLUSTER_NAME=fgt-ha-ap-concourse-ci
+                        - -var
+                        - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
 
-  - task: terraform-apply
-    image: terraform-0-13-7
-    config:
-      inputs:
-      - name: terraform-ibm-ha-repo
-      outputs:
-      - name: terraform-ibm-ha-repo
-      platform: linux
-      run:
-        path: terraform
-        dir: terraform-ibm-ha-repo
-        args:
-          - apply
-          - -auto-approve
-          - -var
-          - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
-          - -var
-          - VPC=((ibm_ci.vpc))
-          - -var
-          - SUBNET_1=((ibm_ci.subnet_1_dc))
-          - -var
-          - SUBNET_2=((ibm_ci.subnet_2_dc))
-          - -var
-          - SUBNET_3=((ibm_ci.subnet_3_dc))
-          - -var
-          - SUBNET_4=((ibm_ci.subnet_4_dc))
-          - -var
-          - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
-          - -var
-          - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
-          - -var
-          - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
-          - -var
-          - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
-          - -var
-          - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
-          - -var
-          - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1)
-          - -var
-          - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2)
-          - -var
-          - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3)
-          - -var
-          - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
-          - -var
-          - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
-          - -var
-          - SECURITY_GROUP=((ibm_ci.security_group))
-          - -var
-          - CLUSTER_NAME=fgt-ha-ap-concourse-ci
-          - -var
-          - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
+          - task: terraform-apply
+            image: terraform-0-13-7
+            config:
+                inputs:
+                    - name: terraform-ibm-ha-repo
+                outputs:
+                    - name: terraform-ibm-ha-repo
+                platform: linux
+                run:
+                    path: terraform
+                    dir: terraform-ibm-ha-repo
+                    args:
+                        - apply
+                        - -auto-approve
+                        - -var
+                        - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
+                        - -var
+                        - VPC=((ibm_ci.vpc))
+                        - -var
+                        - SUBNET_1=((ibm_ci.subnet_1_dc))
+                        - -var
+                        - SUBNET_2=((ibm_ci.subnet_2_dc))
+                        - -var
+                        - SUBNET_3=((ibm_ci.subnet_3_dc))
+                        - -var
+                        - SUBNET_4=((ibm_ci.subnet_4_dc))
+                        - -var
+                        - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
+                        - -var
+                        - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
+                        - -var
+                        - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
+                        - -var
+                        - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
+                        - -var
+                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
+                        - -var
+                        - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1)
+                        - -var
+                        - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2)
+                        - -var
+                        - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3)
+                        - -var
+                        - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
+                        - -var
+                        - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
+                        - -var
+                        - SECURITY_GROUP=((ibm_ci.security_group))
+                        - -var
+                        - CLUSTER_NAME=fgt-ha-ap-concourse-ci
+                        - -var
+                        - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
 
-  - task: terraform-destroy
-    image: terraform-0-13-7
-    config:
-      inputs:
-      - name: terraform-ibm-ha-repo
-      outputs:
-      - name: terraform-ibm-ha-repo
-      platform: linux
-      run:
-        path: terraform
-        dir: terraform-ibm-ha-repo
-        args:
-          - destroy
-          - -auto-approve
-          - -var
-          - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
-          - -var
-          - VPC=((ibm_ci.vpc))
-          - -var
-          - SUBNET_1=((ibm_ci.subnet_1_dc))
-          - -var
-          - SUBNET_2=((ibm_ci.subnet_2_dc))
-          - -var
-          - SUBNET_3=((ibm_ci.subnet_3_dc))
-          - -var
-          - SUBNET_4=((ibm_ci.subnet_4_dc))
-          - -var
-          - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
-          - -var
-          - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
-          - -var
-          - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
-          - -var
-          - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
-          - -var
-          - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
-          - -var
-          - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1)
-          - -var
-          - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2)
-          - -var
-          - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3)
-          - -var
-          - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
-          - -var
-          - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
-          - -var
-          - SECURITY_GROUP=((ibm_ci.security_group))
-          - -var
-          - CLUSTER_NAME=fgt-ha-ap-concourse-ci
-          - -var
-          - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
+          - task: terraform-destroy
+            image: terraform-0-13-7
+            config:
+                inputs:
+                    - name: terraform-ibm-ha-repo
+                outputs:
+                    - name: terraform-ibm-ha-repo
+                platform: linux
+                run:
+                    path: terraform
+                    dir: terraform-ibm-ha-repo
+                    args:
+                        - destroy
+                        - -auto-approve
+                        - -var
+                        - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
+                        - -var
+                        - VPC=((ibm_ci.vpc))
+                        - -var
+                        - SUBNET_1=((ibm_ci.subnet_1_dc))
+                        - -var
+                        - SUBNET_2=((ibm_ci.subnet_2_dc))
+                        - -var
+                        - SUBNET_3=((ibm_ci.subnet_3_dc))
+                        - -var
+                        - SUBNET_4=((ibm_ci.subnet_4_dc))
+                        - -var
+                        - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
+                        - -var
+                        - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
+                        - -var
+                        - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
+                        - -var
+                        - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
+                        - -var
+                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
+                        - -var
+                        - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1)
+                        - -var
+                        - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2)
+                        - -var
+                        - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3)
+                        - -var
+                        - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
+                        - -var
+                        - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
+                        - -var
+                        - SECURITY_GROUP=((ibm_ci.security_group))
+                        - -var
+                        - CLUSTER_NAME=fgt-ha-ap-concourse-ci
+                        - -var
+                        - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
