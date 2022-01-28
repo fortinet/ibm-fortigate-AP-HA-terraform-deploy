@@ -5,7 +5,7 @@ resources:
       source:
           uri: https://github.com/fshuva/ibm-fortigate-AP-HA-terraform-deploy.git
           branch: concourse_setup
-    - name: terraform-0-13-7
+    - name: terraform-image
       type: registry-image
       source:
           repository: hashicorp/terraform
@@ -14,12 +14,12 @@ resources:
 jobs:
     - name: terraform-deployment-pipeline
       plan:
-          - get: terraform-0-13-7
+          - get: terraform-image
           - get: terraform-ibm-ha-repo
             trigger: true
 
           - task: terraform-init
-            image: terraform-0-13-7
+            image: terraform-image
             config:
                 inputs:
                     - name: terraform-ibm-ha-repo
@@ -33,7 +33,7 @@ jobs:
                         - init
 
           - task: terraform-plan
-            image: terraform-0-13-7
+            image: terraform-image
             config:
                 inputs:
                     - name: terraform-ibm-ha-repo
@@ -85,7 +85,7 @@ jobs:
                         - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
 
           - task: terraform-apply
-            image: terraform-0-13-7
+            image: terraform-image
             config:
                 inputs:
                     - name: terraform-ibm-ha-repo
@@ -138,7 +138,7 @@ jobs:
                         - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
 
           - task: terraform-destroy
-            image: terraform-0-13-7
+            image: terraform-image
             config:
                 inputs:
                     - name: terraform-ibm-ha-repo
