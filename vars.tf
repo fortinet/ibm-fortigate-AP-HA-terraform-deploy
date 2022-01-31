@@ -16,6 +16,24 @@ variable "REGION" {
   default     = "us-east"
   description = "Deployment region."
 }
+
+// IBM region map for FortiOS
+
+variable "IBMREGION" {
+  type        = map(string)
+  default     ={
+    "us-south" = "dallas-private",
+    "us-east" = "washington-dc-private"
+    "ca-tor" = "toronto-private"
+    "br-sao" = "sao-paolo-private"
+    "eu-gb" = "london-private"
+    "eu-de" = "frankfurt-private"
+    "au-syd" = "sydney-private"
+    "jp-tok" = "tokyo-private"
+    "jp-osa" = "osaka-private"
+  }
+  }
+
 // IBM availability zones
 variable "ZONE" {
   type        = string

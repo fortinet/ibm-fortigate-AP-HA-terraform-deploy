@@ -154,7 +154,7 @@ data "template_file" "userdata_active" {
 
     netmask                  = var.NETMASK
     ibm_api_key              = var.IBMCLOUD_API_KEY
-    region                   = var.REGION
+    region                   = var.IBMREGION[var.REGION]
     fgt1_port_4_mgmt_gateway = var.FGT1_PORT4_MGMT_GATEWAY
 
   }
@@ -176,7 +176,9 @@ data "template_file" "userdata_passive" {
 
     netmask                  = var.NETMASK
     ibm_api_key              = var.IBMCLOUD_API_KEY
-    region                   = var.REGION
+    region                   = var.IBMREGION[var.REGION]
+    #var.REGION[var.IBMREGION]
+    #ibm_region               = var.IBMREGION
     fgt2_port_4_mgmt_gateway = var.FGT2_PORT4_MGMT_GATEWAY
   }
 }
