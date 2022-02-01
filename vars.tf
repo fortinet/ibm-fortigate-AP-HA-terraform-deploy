@@ -18,7 +18,6 @@ variable "REGION" {
 }
 
 // IBM region map for FortiOS
-
 variable "IBMREGION" {
   type = map(string)
   default = {
