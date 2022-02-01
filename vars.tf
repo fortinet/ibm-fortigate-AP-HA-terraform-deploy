@@ -16,6 +16,23 @@ variable "REGION" {
   default     = "us-east"
   description = "Deployment region."
 }
+
+// IBM region map for FortiOS
+variable "IBMREGION" {
+  type = map(string)
+  default = {
+    "us-south" = "dallas-private"
+    "us-east"  = "washington-dc-private"
+    "ca-tor"   = "toronto-private"
+    "br-sao"   = "sao-paolo-private"
+    "eu-gb"    = "london-private"
+    "eu-de"    = "frankfurt-private"
+    "au-syd"   = "sydney-private"
+    "jp-tok"   = "tokyo-private"
+    "jp-osa"   = "osaka-private"
+  }
+}
+
 // IBM availability zones
 variable "ZONE" {
   type        = string
@@ -47,24 +64,24 @@ variable "SUBNET_3" {
 variable "SUBNET_4" {
   type        = string
   default     = ""
- description = "The ID of the Subnet used for the HA management subnet. Tied to Port4."
+  description = "The ID of the Subnet used for the HA management subnet. Tied to Port4."
 }
 
 variable "NETMASK" {
   type        = string
   default     = "255.255.255.0"
-description = "Subnet mask for the static IP address and NIC of each FortiGate."
+  description = "Subnet mask for the static IP address and NIC of each FortiGate."
 }
 
 variable "FGT1_STATIC_IP_PORT1" {
   type        = string
   default     = ""
-description = "Static IP assignment for Port 1 of the Primary (ACTIVE) FortiGate."
+  description = "Static IP assignment for Port 1 of the Primary (ACTIVE) FortiGate."
 }
 variable "FGT1_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-description = "Static IP assignment for Port 2 of the Primary (ACTIVE) FortiGate."
+  description = "Static IP assignment for Port 2 of the Primary (ACTIVE) FortiGate."
 }
 // Used for HA Heartbeat mechanism.
 variable "FGT1_STATIC_IP_PORT3" {
@@ -135,12 +152,10 @@ resource "random_string" "random_suffix" {
 
 
 // FortiOS Custom Image ID
-// https://docs.fortinet.com/vm/ibm/fortigate/6.4/ibm-cloud-cookbook/6.4.2/992669/deploying-fortigate-vm-on-ibm-cloud
-// Deploys 6.4.4 Image
-// 6.4.4 available link: cos://us-geo/fortinet/fortigate_byol_644_b1803_GA.qcow2
-// Deploys 7.0.3 Image
+// https://docs.fortinet.com/document/fortigate-public-cloud/7.0.0/ibm-cloud-administration-guide/324064/ha-for-fortigate-vm-on-ibm-cloud
+//Deploys 7.0.4 Image
 variable "image" {
-  default = "cos://us-geo/fortinet/fortigate_byol_703_b0237_GA.qcow2"
+  default = "cos://us-geo/fortinet/fortigate_byol_704_b0301_GA.qcow2"
 }
 variable "IBMCLOUD_API_KEY" {
   default     = ""
