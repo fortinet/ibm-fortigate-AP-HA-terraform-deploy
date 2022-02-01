@@ -12,7 +12,7 @@ data "ibm_is_subnet" "subnet3" {
   identifier = var.SUBNET_3
 }
 data "ibm_is_subnet" "subnet4" {
- identifier = var.SUBNET_4
+  identifier = var.SUBNET_4
 }
 data "ibm_is_security_group" "fgt_security_group" {
   name = var.SECURITY_GROUP

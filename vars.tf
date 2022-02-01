@@ -20,19 +20,19 @@ variable "REGION" {
 // IBM region map for FortiOS
 
 variable "IBMREGION" {
-  type        = map(string)
-  default     ={
-    "us-south" = "dallas-private",
-    "us-east" = "washington-dc-private"
-    "ca-tor" = "toronto-private"
-    "br-sao" = "sao-paolo-private"
-    "eu-gb" = "london-private"
-    "eu-de" = "frankfurt-private"
-    "au-syd" = "sydney-private"
-    "jp-tok" = "tokyo-private"
-    "jp-osa" = "osaka-private"
+  type = map(string)
+  default = {
+    "us-south" = "dallas-private"
+    "us-east"  = "washington-dc-private"
+    "ca-tor"   = "toronto-private"
+    "br-sao"   = "sao-paolo-private"
+    "eu-gb"    = "london-private"
+    "eu-de"    = "frankfurt-private"
+    "au-syd"   = "sydney-private"
+    "jp-tok"   = "tokyo-private"
+    "jp-osa"   = "osaka-private"
   }
-  }
+}
 
 // IBM availability zones
 variable "ZONE" {
@@ -65,24 +65,24 @@ variable "SUBNET_3" {
 variable "SUBNET_4" {
   type        = string
   default     = ""
- description = "The ID of the Subnet used for the HA management subnet. Tied to Port4."
+  description = "The ID of the Subnet used for the HA management subnet. Tied to Port4."
 }
 
 variable "NETMASK" {
   type        = string
   default     = "255.255.255.0"
-description = "Subnet mask for the static IP address and NIC of each FortiGate."
+  description = "Subnet mask for the static IP address and NIC of each FortiGate."
 }
 
 variable "FGT1_STATIC_IP_PORT1" {
   type        = string
   default     = ""
-description = "Static IP assignment for Port 1 of the Primary (ACTIVE) FortiGate."
+  description = "Static IP assignment for Port 1 of the Primary (ACTIVE) FortiGate."
 }
 variable "FGT1_STATIC_IP_PORT2" {
   type        = string
   default     = ""
-description = "Static IP assignment for Port 2 of the Primary (ACTIVE) FortiGate."
+  description = "Static IP assignment for Port 2 of the Primary (ACTIVE) FortiGate."
 }
 // Used for HA Heartbeat mechanism.
 variable "FGT1_STATIC_IP_PORT3" {

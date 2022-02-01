@@ -74,7 +74,7 @@ resource "ibm_is_instance" "fgt1" {
   zone      = var.ZONE
   user_data = data.template_file.userdata_active.rendered
   keys      = [data.ibm_is_ssh_key.ssh_key.id]
-// Timeout issues persist. See https://www.ibm.com/cloud/blog/timeout-errors-with-ibm-cloud-schematics
+  // Timeout issues persist. See https://www.ibm.com/cloud/blog/timeout-errors-with-ibm-cloud-schematics
   timeouts {
     create = "60m"
     update = "60m"
@@ -174,9 +174,9 @@ data "template_file" "userdata_passive" {
     fgt_2_static_port3 = var.FGT2_STATIC_IP_PORT3
     fgt_2_static_port4 = var.FGT2_STATIC_IP_PORT4
 
-    netmask                  = var.NETMASK
-    ibm_api_key              = var.IBMCLOUD_API_KEY
-    region                   = var.IBMREGION[var.REGION]
+    netmask     = var.NETMASK
+    ibm_api_key = var.IBMCLOUD_API_KEY
+    region      = var.IBMREGION[var.REGION]
     #var.REGION[var.IBMREGION]
     #ibm_region               = var.IBMREGION
     fgt2_port_4_mgmt_gateway = var.FGT2_PORT4_MGMT_GATEWAY
