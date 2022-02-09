@@ -109,7 +109,6 @@ jobs:
                         - -var
                         - ZONE=((zone))
                         - -var
-                        - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
                         - SUBNET_1=((ibm_ci.subnet_1))
@@ -166,7 +165,6 @@ jobs:
                         - REGION=((region))
                         - -var
                         - ZONE=((zone))
-                        - -var
                         - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
