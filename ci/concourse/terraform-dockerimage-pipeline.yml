@@ -3,10 +3,11 @@ resources:
       type: git
       icon: github
       source:
-          uri: https://github.com/fshuva/ibm-fortigate-AP-HA-terraform-deploy.git
+          uri: https://github.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy.git
           branch: main
     - name: terraform-image
       type: registry-image
+      icon: terraform
       source:
           repository: hashicorp/terraform
           tag: 0.13.7
