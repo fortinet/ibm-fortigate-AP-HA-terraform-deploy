@@ -127,7 +127,7 @@ jobs:
                         - -var
                         - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
                         - -var
-                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway)
+                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
                         - -var
                         - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1))
                         - -var
