@@ -4,7 +4,7 @@ resources:
       icon: github
       source:
           uri: https://github.com/fshuva/ibm-fortigate-AP-HA-terraform-deploy.git
-          branch: concourse_setup
+          branch: main
     - name: terraform-image
       type: registry-image
       source:
@@ -48,15 +48,19 @@ jobs:
                         - -var
                         - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
                         - -var
+                        - REGION=((region))
+                        - -var
+                        - ZONE=((zone))
+                        - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
-                        - SUBNET_1=((ibm_ci.subnet_1_dc))
+                        - SUBNET_1=((ibm_ci.subnet_1))
                         - -var
-                        - SUBNET_2=((ibm_ci.subnet_2_dc))
+                        - SUBNET_2=((ibm_ci.subnet_2))
                         - -var
-                        - SUBNET_3=((ibm_ci.subnet_3_dc))
+                        - SUBNET_3=((ibm_ci.subnet_3))
                         - -var
-                        - SUBNET_4=((ibm_ci.subnet_4_dc))
+                        - SUBNET_4=((ibm_ci.subnet_4))
                         - -var
                         - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
                         - -var
@@ -101,15 +105,20 @@ jobs:
                         - -var
                         - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
                         - -var
+                        - REGION=((region))
+                        - -var
+                        - ZONE=((zone))
+                        - -var
+                        - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
-                        - SUBNET_1=((ibm_ci.subnet_1_dc))
+                        - SUBNET_1=((ibm_ci.subnet_1))
                         - -var
-                        - SUBNET_2=((ibm_ci.subnet_2_dc))
+                        - SUBNET_2=((ibm_ci.subnet_2))
                         - -var
-                        - SUBNET_3=((ibm_ci.subnet_3_dc))
+                        - SUBNET_3=((ibm_ci.subnet_3))
                         - -var
-                        - SUBNET_4=((ibm_ci.subnet_4_dc))
+                        - SUBNET_4=((ibm_ci.subnet_4))
                         - -var
                         - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
                         - -var
@@ -154,15 +163,20 @@ jobs:
                         - -var
                         - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
                         - -var
+                        - REGION=((region))
+                        - -var
+                        - ZONE=((zone))
+                        - -var
+                        - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
-                        - SUBNET_1=((ibm_ci.subnet_1_dc))
+                        - SUBNET_1=((ibm_ci.subnet_1))
                         - -var
-                        - SUBNET_2=((ibm_ci.subnet_2_dc))
+                        - SUBNET_2=((ibm_ci.subnet_2))
                         - -var
-                        - SUBNET_3=((ibm_ci.subnet_3_dc))
+                        - SUBNET_3=((ibm_ci.subnet_3))
                         - -var
-                        - SUBNET_4=((ibm_ci.subnet_4_dc))
+                        - SUBNET_4=((ibm_ci.subnet_4))
                         - -var
                         - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
                         - -var
