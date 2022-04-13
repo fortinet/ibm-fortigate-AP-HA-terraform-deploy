@@ -1,5 +1,4 @@
 name: 'Build IBM release'
-
 on:
     push:
         tags:
@@ -8,9 +7,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
-
             - name: 'Make the Distribution Directory'
               run: |
                   mkdir  ibm-fortigate-AP-HA-terraform-deploy
@@ -24,6 +21,5 @@ jobs:
               with:
                   repo_token: '${{ secrets.IBM_TOKEN }}'
                   prerelease: false
-                  title: 'testRelease-ibm-fortigate-terraform-deploy-AP-HA.'
                   files: |
                       ibm-fortigate-terraform-deploy-AP-HA.tar.gz
