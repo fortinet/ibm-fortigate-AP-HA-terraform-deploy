@@ -2,8 +2,8 @@ name: 'Build IBM release'
 
 on:
     push:
-        branches: [main]
-
+        tags:
+        - '*'
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -23,8 +23,7 @@ jobs:
             - uses: 'marvinpinto/action-automatic-releases@latest'
               with:
                   repo_token: '${{ secrets.IBM_TOKEN }}'
-                  automatic_release_tag: 'latest'
                   prerelease: false
-                  title: 'ibm-fortigate-terraform-deploy-AP-HA.'
+                  title: 'testRelease-ibm-fortigate-terraform-deploy-AP-HA.'
                   files: |
                       ibm-fortigate-terraform-deploy-AP-HA.tar.gz
