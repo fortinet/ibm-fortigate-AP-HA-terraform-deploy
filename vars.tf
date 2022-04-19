@@ -6,7 +6,7 @@ variable "SSH_PUBLIC_KEY" {
 // Magic Value for Catalog Validation that initializes Terraform with a specific version.
 // Only needed in IBM catalog.
 variable "TF_VERSION" {
-  default     = "0.13"
+  default     = "1.1"
   description = "Terraform version to be used in validation."
 }
 
