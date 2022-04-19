@@ -11,10 +11,6 @@ jobs:
             - name: 'Make the Distribution Directory'
               run: |
                   mkdir  ibm-fortigate-AP-HA-terraform-deploy
-            - name: 'Set env'
-              id: vars
-              run: |
-                  echo ::set-output name=tag::${GITHUB_REF#refs/*/}
             - name: 'Copy the files'
               run: |
                   cp *.tf *.conf LICENSE README.md ./ibm-fortigate-AP-HA-terraform-deploy/
@@ -25,6 +21,6 @@ jobs:
               with:
                   repo_token: '${{ secrets.IBM_TOKEN }}'
                   prerelease: false
-                  title: 'Release-ibm-fortigate-terraform-deploy-AP-HA {tags}'
+                  title: 'Release-ibm-fortigate-terraform-deploy-AP-HA ${{github.ref_name}'
                   files: |
                       ibm-fortigate-terraform-deploy-AP-HA.tar.gz
