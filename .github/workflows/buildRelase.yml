@@ -11,6 +11,10 @@ jobs:
             - name: 'Make the Distribution Directory'
               run: |
                   mkdir  ibm-fortigate-AP-HA-terraform-deploy
+            - name: 'Set env'
+              id: vars
+              run: |
+                  echo ::set-output name=tag::${GITHUB_REF#refs/*/}
             - name: 'Copy the files'
               run: |
                   cp *.tf *.conf LICENSE README.md ./ibm-fortigate-AP-HA-terraform-deploy/
