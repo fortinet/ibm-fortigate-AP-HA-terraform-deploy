@@ -21,6 +21,6 @@ jobs:
               with:
                   repo_token: '${{ secrets.IBM_TOKEN }}'
                   prerelease: false
-                  title: 'Release-ibm-fortigate-terraform-deploy-AP-HA ${TAG Name}'
+                  title: 'Release-ibm-fortigate-terraform-deploy-AP-HA ${{TAG Name}}'
                   files: |
                       ibm-fortigate-terraform-deploy-AP-HA.tar.gz
