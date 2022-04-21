@@ -10,7 +10,7 @@ resources:
       icon: terraform
       source:
           repository: hashicorp/terraform
-          tag: 0.13.7
+          tag: 1.1.5
 
 jobs:
     - name: terraform-deployment-pipeline
