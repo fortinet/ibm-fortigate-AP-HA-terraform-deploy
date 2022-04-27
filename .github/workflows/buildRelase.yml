@@ -22,7 +22,6 @@ jobs:
             - uses: 'marvinpinto/action-automatic-releases@latest'
               with:
                   repo_token: '${{ secrets.IBM_TOKEN }}'
-                  automatic_release_tag: 'latest'
                   prerelease: false
                   title: 'ibm-fortigate-terraform-deploy-AP-HA ${{github.ref_name}}'
                   files: |
