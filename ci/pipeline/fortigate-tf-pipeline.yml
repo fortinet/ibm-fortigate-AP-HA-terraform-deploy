@@ -1,5 +1,5 @@
 resources:
-    - name: terraform-ibm-ha-repo
+    - name: fortigate-ibm-ha-repo
       type: git
       icon: github
       source:
@@ -11,25 +11,51 @@ resources:
       source:
           repository: hashicorp/terraform
           tag: 1.1.5
+    - name: alert
+      type: teams-notification
+      source:
+          url: ((ibm_ci.webhook))
+
+resource_types:
+    - name: teams-notification
+      type: docker-image
+      source:
+          repository: navicore/teams-notification-resource
+          tag: latest
+
+teams_failure_notification: &teams_failure_notification
+    put: alert
+    params:
+        color: FF0000
+        text: |
+            Deployment tests failed.
+        title: Failure
+        actionName: FortiGate AP HA IBM Cloud Terraform Pipeline
+        actionTarget: $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
 
 jobs:
-    - name: terraform-deployment-pipeline
+    - name: terraform-deployment
+      on_failure:
+          do:
+              - task: terraform-destroy
+                file: ci/pipeline/terraform-destroy.yml
+
       plan:
           - get: terraform-image
-          - get: terraform-ibm-ha-repo
+          - get: fortigate-ibm-ha-repo
             trigger: true
 
           - task: terraform-init
             image: terraform-image
             config:
                 inputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 outputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 platform: linux
                 run:
                     path: terraform
-                    dir: terraform-ibm-ha-repo
+                    dir: fortigate-ibm-ha-repo
                     args:
                         - init
 
@@ -37,21 +63,21 @@ jobs:
             image: terraform-image
             config:
                 inputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 outputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 platform: linux
                 run:
                     path: terraform
-                    dir: terraform-ibm-ha-repo
+                    dir: fortigate-ibm-ha-repo
                     args:
                         - plan
                         - -var
                         - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
                         - -var
-                        - REGION=((region))
+                        - REGION=((ibm_ci.region))
                         - -var
-                        - ZONE=((zone))
+                        - ZONE=((ibm_ci.zone))
                         - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
@@ -63,25 +89,25 @@ jobs:
                         - -var
                         - SUBNET_4=((ibm_ci.subnet_4))
                         - -var
-                        - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
+                        - FGT1_STATIC_IP_PORT1=((ibm_ci.fgt1_static_ip_port1))
                         - -var
-                        - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
+                        - FGT1_STATIC_IP_PORT2=((ibm_ci.fgt1_static_ip_port2))
                         - -var
-                        - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
+                        - FGT1_STATIC_IP_PORT3=((ibm_ci.fgt1_static_ip_port3))
                         - -var
-                        - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
+                        - FGT1_STATIC_IP_PORT4=((ibm_ci.fgt1_static_ip_port4))
                         - -var
-                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+                        - FGT1_PORT4_MGMT_GATEWAY=((ibm_ci.fgt_port4_mgmt_gateway))
                         - -var
-                        - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1))
+                        - FGT2_STATIC_IP_PORT1=((ibm_ci.fgt2_static_ip_port1))
                         - -var
-                        - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2))
+                        - FGT2_STATIC_IP_PORT2=((ibm_ci.fgt2_static_ip_port2))
                         - -var
-                        - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3))
+                        - FGT2_STATIC_IP_PORT3=((ibm_ci.fgt2_static_ip_port3))
                         - -var
-                        - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
+                        - FGT2_STATIC_IP_PORT4=((ibm_ci.fgt2_static_ip_port4))
                         - -var
-                        - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+                        - FGT2_PORT4_MGMT_GATEWAY=((ibm_ci.fgt_port4_mgmt_gateway))
                         - -var
                         - SECURITY_GROUP=((ibm_ci.security_group))
                         - -var
@@ -90,25 +116,26 @@ jobs:
                         - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))
 
           - task: terraform-apply
+            on_failure: *teams_failure_notification
             image: terraform-image
             config:
                 inputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 outputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 platform: linux
                 run:
                     path: terraform
-                    dir: terraform-ibm-ha-repo
+                    dir: fortigate-ibm-ha-repo
                     args:
                         - apply
                         - -auto-approve
                         - -var
                         - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
                         - -var
-                        - REGION=((region))
+                        - REGION=((ibm_ci.region))
                         - -var
-                        - ZONE=((zone))
+                        - ZONE=((ibm_ci.zone))
                         - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
@@ -120,25 +147,25 @@ jobs:
                         - -var
                         - SUBNET_4=((ibm_ci.subnet_4))
                         - -var
-                        - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
+                        - FGT1_STATIC_IP_PORT1=((ibm_ci.fgt1_static_ip_port1))
                         - -var
-                        - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
+                        - FGT1_STATIC_IP_PORT2=((ibm_ci.fgt1_static_ip_port2))
                         - -var
-                        - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
+                        - FGT1_STATIC_IP_PORT3=((ibm_ci.fgt1_static_ip_port3))
                         - -var
-                        - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
+                        - FGT1_STATIC_IP_PORT4=((ibm_ci.fgt1_static_ip_port4))
                         - -var
-                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+                        - FGT1_PORT4_MGMT_GATEWAY=((ibm_ci.fgt_port4_mgmt_gateway))
                         - -var
-                        - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1))
+                        - FGT2_STATIC_IP_PORT1=((ibm_ci.fgt2_static_ip_port1))
                         - -var
-                        - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2))
+                        - FGT2_STATIC_IP_PORT2=((ibm_ci.fgt2_static_ip_port2))
                         - -var
-                        - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3))
+                        - FGT2_STATIC_IP_PORT3=((ibm_ci.fgt2_static_ip_port3))
                         - -var
-                        - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
+                        - FGT2_STATIC_IP_PORT4=((ibm_ci.fgt2_static_ip_port4))
                         - -var
-                        - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+                        - FGT2_PORT4_MGMT_GATEWAY=((ibm_ci.fgt_port4_mgmt_gateway))
                         - -var
                         - SECURITY_GROUP=((ibm_ci.security_group))
                         - -var
@@ -150,22 +177,22 @@ jobs:
             image: terraform-image
             config:
                 inputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 outputs:
-                    - name: terraform-ibm-ha-repo
+                    - name: fortigate-ibm-ha-repo
                 platform: linux
                 run:
                     path: terraform
-                    dir: terraform-ibm-ha-repo
+                    dir: fortigate-ibm-ha-repo
                     args:
                         - destroy
                         - -auto-approve
                         - -var
                         - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
                         - -var
-                        - REGION=((region))
+                        - REGION=((ibm_ci.region))
                         - -var
-                        - ZONE=((zone))
+                        - ZONE=((ibm_ci.zone))
                         - -var
                         - VPC=((ibm_ci.vpc))
                         - -var
@@ -177,25 +204,25 @@ jobs:
                         - -var
                         - SUBNET_4=((ibm_ci.subnet_4))
                         - -var
-                        - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
+                        - FGT1_STATIC_IP_PORT1=((ibm_ci.fgt1_static_ip_port1))
                         - -var
-                        - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
+                        - FGT1_STATIC_IP_PORT2=((ibm_ci.fgt1_static_ip_port2))
                         - -var
-                        - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
+                        - FGT1_STATIC_IP_PORT3=((ibm_ci.fgt1_static_ip_port3))
                         - -var
-                        - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
+                        - FGT1_STATIC_IP_PORT4=((ibm_ci.fgt1_static_ip_port4))
                         - -var
-                        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+                        - FGT1_PORT4_MGMT_GATEWAY=((ibm_ci.fgt_port4_mgmt_gateway))
                         - -var
-                        - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1))
+                        - FGT2_STATIC_IP_PORT1=((ibm_ci.fgt2_static_ip_port1))
                         - -var
-                        - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2))
+                        - FGT2_STATIC_IP_PORT2=((ibm_ci.fgt2_static_ip_port2))
                         - -var
-                        - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3))
+                        - FGT2_STATIC_IP_PORT3=((ibm_ci.fgt2_static_ip_port3))
                         - -var
-                        - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
+                        - FGT2_STATIC_IP_PORT4=((ibm_ci.fgt2_static_ip_port4))
                         - -var
-                        - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+                        - FGT2_PORT4_MGMT_GATEWAY=((ibm_ci.fgt_port4_mgmt_gateway))
                         - -var
                         - SECURITY_GROUP=((ibm_ci.security_group))
                         - -var
