@@ -1,11 +1,11 @@
 inputs:
-    - name: terraform-ibm-ha-repo
+    - name: fortigate-ibm-ha-repo
 outputs:
-    - name: terraform-ibm-ha-repo
+    - name: fortigate-ibm-ha-repo
 platform: linux
 run:
     path: terraform
-    dir: terraform-ibm-ha-repo
+    dir: fortigate-ibm-ha-repo
     args:
         - destroy
         - -auto-approve
