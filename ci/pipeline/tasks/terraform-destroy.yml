@@ -1,8 +1,15 @@
+platform: linux
+
+image_resource:
+    type: registry-image
+    source:
+        repository: hashicorp/terraform
+        tag: 1.1.5
+
 inputs:
     - name: fortigate-ibm-ha-repo
 outputs:
     - name: fortigate-ibm-ha-repo
-platform: linux
 run:
     path: terraform
     dir: fortigate-ibm-ha-repo
