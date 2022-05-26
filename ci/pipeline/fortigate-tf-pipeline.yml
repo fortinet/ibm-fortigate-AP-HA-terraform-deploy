@@ -4,7 +4,7 @@ resources:
       icon: github
       source:
           uri: https://github.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy.git
-          branch: main
+          branch: teams_alerts
     - name: terraform-image
       type: registry-image
       icon: terraform
@@ -38,7 +38,7 @@ jobs:
       on_failure:
           do:
               - task: terraform-destroy
-                file: ci/pipeline/terraform-destroy.yml
+                file: fortigate-ibm-ha-repo/ci/tasks/terraform-destroy.yml
 
       plan:
           - get: terraform-image
