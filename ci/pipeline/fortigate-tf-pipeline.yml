@@ -15,6 +15,11 @@ resources:
       type: teams-notification
       source:
           url: ((ibm_ci.webhook))
+    - name: every-day
+      type: time
+      icon: clock-outline
+      source:
+          location: America/Vancouver
 
 resource_types:
     - name: teams-notification
@@ -38,6 +43,8 @@ jobs:
       plan:
           - get: terraform-image
           - get: fortigate-ibm-ha-repo
+            trigger: true
+          - get: every-day
             trigger: true
 
           - task: terraform-init
