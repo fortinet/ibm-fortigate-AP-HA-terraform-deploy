@@ -1,0 +1,11 @@
+region: eu-gb
+zone: eu-gb-2
+fgt1_static_ip_port1: 10.242.64.11
+fgt1_static_ip_port2: 10.242.65.11
+fgt1_static_ip_port3: 10.242.66.11
+fgt1_static_ip_port4: 10.242.67.11
+fgt_port4_mgmt_gateway: 10.242.67.1
+fgt2_static_ip_port1: 10.242.64.12
+fgt2_static_ip_port2: 10.242.65.12
+fgt2_static_ip_port3: 10.242.66.12
+fgt2_static_ip_port4: 10.242.67.12
