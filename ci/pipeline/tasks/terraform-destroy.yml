@@ -19,11 +19,9 @@ run:
         - -var
         - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
         - -var
-        - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
+        - REGION=((parameter.region))
         - -var
-        - REGION=((region))
-        - -var
-        - ZONE=((zone))
+        - ZONE=((parameter.zone))
         - -var
         - VPC=((ibm_ci.vpc))
         - -var
@@ -35,25 +33,25 @@ run:
         - -var
         - SUBNET_4=((ibm_ci.subnet_4))
         - -var
-        - FGT1_STATIC_IP_PORT1=((fgt1_static_ip_port1))
+        - FGT1_STATIC_IP_PORT1=((parameter.fgt1_static_ip_port1))
         - -var
-        - FGT1_STATIC_IP_PORT2=((fgt1_static_ip_port2))
+        - FGT1_STATIC_IP_PORT2=((parameter.fgt1_static_ip_port2))
         - -var
-        - FGT1_STATIC_IP_PORT3=((fgt1_static_ip_port3))
+        - FGT1_STATIC_IP_PORT3=((parameter.fgt1_static_ip_port3))
         - -var
-        - FGT1_STATIC_IP_PORT4=((fgt1_static_ip_port4))
+        - FGT1_STATIC_IP_PORT4=((parameter.fgt1_static_ip_port4))
         - -var
-        - FGT1_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+        - FGT1_PORT4_MGMT_GATEWAY=((parameter.fgt_port4_mgmt_gateway))
         - -var
-        - FGT2_STATIC_IP_PORT1=((fgt2_static_ip_port1))
+        - FGT2_STATIC_IP_PORT1=((parameter.fgt2_static_ip_port1))
         - -var
-        - FGT2_STATIC_IP_PORT2=((fgt2_static_ip_port2))
+        - FGT2_STATIC_IP_PORT2=((parameter.fgt2_static_ip_port2))
         - -var
-        - FGT2_STATIC_IP_PORT3=((fgt2_static_ip_port3))
+        - FGT2_STATIC_IP_PORT3=((parameter.fgt2_static_ip_port3))
         - -var
-        - FGT2_STATIC_IP_PORT4=((fgt2_static_ip_port4))
+        - FGT2_STATIC_IP_PORT4=((parameter.fgt2_static_ip_port4))
         - -var
-        - FGT2_PORT4_MGMT_GATEWAY=((fgt_port4_mgmt_gateway))
+        - FGT2_PORT4_MGMT_GATEWAY=((parameter.fgt_port4_mgmt_gateway))
         - -var
         - SECURITY_GROUP=((ibm_ci.security_group))
         - -var
