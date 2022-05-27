@@ -46,6 +46,8 @@ jobs:
             trigger: true
           - get: every-day
             trigger: true
+          - load_var: parameter
+            file: fortigate-ibm-ha-repo/ci/pipeline/vars.yml
 
           - task: terraform-init
             image: terraform-image
