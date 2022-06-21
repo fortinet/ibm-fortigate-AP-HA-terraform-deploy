@@ -1,0 +1,60 @@
+platform: linux
+
+image_resource:
+    type: registry-image
+    source:
+        repository: hashicorp/terraform
+        tag: 1.1.5
+
+inputs:
+    - name: fortigate-ibm-ha-repo
+outputs:
+    - name: fortigate-ibm-ha-repo
+run:
+    path: terraform
+    dir: fortigate-ibm-ha-repo
+    args:
+        - destroy
+        - -auto-approve
+        - -var
+        - SSH_PUBLIC_KEY=((ibm_ci.ssh_public_key))
+        - -var
+        - REGION=((.:parameter.region))
+        - -var
+        - ZONE=((.:parameter.zone))
+        - -var
+        - VPC=((ibm_ci.vpc))
+        - -var
+        - SUBNET_1=((ibm_ci.subnet_1))
+        - -var
+        - SUBNET_2=((ibm_ci.subnet_2))
+        - -var
+        - SUBNET_3=((ibm_ci.subnet_3))
+        - -var
+        - SUBNET_4=((ibm_ci.subnet_4))
+        - -var
+        - FGT1_STATIC_IP_PORT1=((.:parameter.fgt1_static_ip_port1))
+        - -var
+        - FGT1_STATIC_IP_PORT2=((.:parameter.fgt1_static_ip_port2))
+        - -var
+        - FGT1_STATIC_IP_PORT3=((.:parameter.fgt1_static_ip_port3))
+        - -var
+        - FGT1_STATIC_IP_PORT4=((.:parameter.fgt1_static_ip_port4))
+        - -var
+        - FGT1_PORT4_MGMT_GATEWAY=((.:parameter.fgt_port4_mgmt_gateway))
+        - -var
+        - FGT2_STATIC_IP_PORT1=((.:parameter.fgt2_static_ip_port1))
+        - -var
+        - FGT2_STATIC_IP_PORT2=((.:parameter.fgt2_static_ip_port2))
+        - -var
+        - FGT2_STATIC_IP_PORT3=((.:parameter.fgt2_static_ip_port3))
+        - -var
+        - FGT2_STATIC_IP_PORT4=((.:parameter.fgt2_static_ip_port4))
+        - -var
+        - FGT2_PORT4_MGMT_GATEWAY=((.:parameter.fgt_port4_mgmt_gateway))
+        - -var
+        - SECURITY_GROUP=((ibm_ci.security_group))
+        - -var
+        - CLUSTER_NAME=fgt-ha-ap-concourse-ci
+        - -var
+        - IBMCLOUD_API_KEY=((ibm_ci.ibmcloud_api_key))

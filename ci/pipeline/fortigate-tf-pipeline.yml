@@ -1,0 +1,78 @@
+resources:
+  - name: fortigate-ibm-ha-repo
+    type: git
+    icon: github
+    source:
+      uri: https://github.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy.git
+      branch: main
+  - name: terraform-image
+    type: registry-image
+    icon: terraform
+    source:
+      repository: hashicorp/terraform
+      tag: 1.1.5
+  - name: alert
+    type: teams-notification
+    source:
+      url: ((ibm_ci.webhook))
+  - name: every-day
+    type: time
+    icon: clock-outline
+    source:
+      location: America/Vancouver
+
+resource_types:
+  - name: teams-notification
+    type: docker-image
+    source:
+      repository: navicore/teams-notification-resource
+      tag: latest
+
+teams_failure_notification: &teams_failure_notification
+  put: alert
+  params:
+    color: FF0000
+    text: |
+      Deployment tests failed.
+    title: Failure
+    actionName: FortiGate AP HA IBM Cloud Terraform Pipeline
+    actionTarget: $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+
+jobs:
+  - name: terraform-deployment
+    plan:
+      - get: terraform-image
+      - get: fortigate-ibm-ha-repo
+        trigger: true
+      - get: every-day
+        trigger: true
+      - load_var: parameter
+        file: fortigate-ibm-ha-repo/ci/pipeline/vars.yml
+
+      - task: terraform-init
+        image: terraform-image
+        config:
+          inputs:
+            - name: fortigate-ibm-ha-repo
+          outputs:
+            - name: fortigate-ibm-ha-repo
+          platform: linux
+          run:
+            path: terraform
+            dir: fortigate-ibm-ha-repo
+            args:
+              - init
+
+      - task: terraform-plan
+        file: fortigate-ibm-ha-repo/ci/pipeline/tasks/terraform-plan.yml
+
+      - task: terraform-apply
+        on_failure:
+          do:
+            - task: destroy-infrastructure
+              file: fortigate-ibm-ha-repo/ci/pipeline/tasks/terraform-destroy.yml
+              ensure: *teams_failure_notification
+        file: fortigate-ibm-ha-repo/ci/pipeline/tasks/terraform-apply.yml
+
+      - task: terraform-destroy
+        file: fortigate-ibm-ha-repo/ci/pipeline/tasks/terraform-destroy.yml

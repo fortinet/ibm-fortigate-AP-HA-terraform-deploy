@@ -1,4 +1,3 @@
----
 region: eu-gb
 zone: eu-gb-2
 fgt1_static_ip_port1: 10.242.64.11
