@@ -5,11 +5,11 @@ After the active VM is back up, it will take over as active once again.
 
 ## Requirements
 
-- [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) 0.13+
-- Two FortiOS 7.0 BYOL Licenses.
-- [A VPC with four subnets in a single zone](https://cloud.ibm.com/docs/vpc/vpc-getting-started-with-ibm-cloud-virtual-private-cloud-infrastructure)
-- [A configured IBM SSH key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)
-- [A security group](https://cloud.ibm.com/docs/security-groups?topic=security-groups-about-ibm-security-groups)
+-   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) 0.13+
+-   Two FortiOS 7.0 BYOL Licenses.
+-   [A VPC with four subnets in a single zone](https://cloud.ibm.com/docs/vpc/vpc-getting-started-with-ibm-cloud-virtual-private-cloud-infrastructure)
+-   [A configured IBM SSH key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)
+-   [A security group](https://cloud.ibm.com/docs/security-groups?topic=security-groups-about-ibm-security-groups)
 
 ## Deployment overview
 
@@ -17,10 +17,10 @@ After the active VM is back up, it will take over as active once again.
 
 Terraform deploys the following components:
 
-- Two FortiGate BYOL instances with four NICs each, one in each subnet.
-- Three floating Public IP addresses: one attached to the Primary FortiGate on Port1, which will failover and the other two attached to the HA management port (Port4) of each FortiGate.
-- One log disk per FortiGate.
-- A basic bootstrap configuration with HA support.
+-   Two FortiGate BYOL instances with four NICs each, one in each subnet.
+-   Three floating Public IP addresses: one attached to the Primary FortiGate on Port1, which will failover and the other two attached to the HA management port (Port4) of each FortiGate.
+-   One log disk per FortiGate.
+-   A basic bootstrap configuration with HA support.
 
 # Deployment Diagram
 
@@ -32,10 +32,13 @@ Terraform deploys the following components:
 
 1. Fill in the required Subnets, security group and VPC information as shown in the example below:
 
+
    ![IBM FortiGate Example Inputs](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha_example.png)
 
-2. Apply the plan.
-3. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
+  
+
+3. Apply the plan.
+4. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
 
 ## Destroy the cluster
 
