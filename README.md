@@ -13,7 +13,7 @@ After the active VM is back up, it will take over as active once again.
 
 ## Deployment overview
 
-> **Note:** For a local deployment, a Gen 2 API key will be needed. For details see [IBM Gen 2 API key](https://cloud.ibm.com/docs/terraform?topic=terraform-provider-reference).
+> **Note:** For a local deployment, a Gen 2 API key will be needed. For details see [IBM Gen 2 API key](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui#create_user_key).
 
 Terraform deploys the following components:
 

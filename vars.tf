@@ -153,14 +153,16 @@ resource "random_string" "random_suffix" {
 
 // FortiOS Custom Image ID
 // https://docs.fortinet.com/document/fortigate-public-cloud/7.0.0/ibm-cloud-administration-guide/324064/ha-for-fortigate-vm-on-ibm-cloud
-//Deploys 7.2.0 Image
+//Deploys 7.2.2 Image
 variable "image" {
-  default = "cos://us-geo/fortinet/fortigate_byol_721_b1254_GA.qcow2"
+  default = "cos://us-geo/fortinet/fortigate_byol_722_b1255_GA.qcow2"
 }
+
 variable "IBMCLOUD_API_KEY" {
   default     = ""
   description = "Your IBM USER API key. Refer to the README for links to documentation for IBM API keys. This value is required for the SDN Connector for HA SYNC."
 }
+
 // Default Instance type
 // See: https://cloud.ibm.com/docs/vpc?topic=vpc-profiles
 variable "PROFILE" {
