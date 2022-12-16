@@ -4,7 +4,7 @@ resources:
     icon: github
     source:
       uri: https://github.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy.git
-      branch: main
+      branch: add_attempts_ci
   - name: terraform-image
     type: registry-image
     icon: terraform
