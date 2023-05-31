@@ -27,3 +27,5 @@ azure_funcapp/host.json
 
 # aws_cloudformation
 autoscale_params.txt
+
+.terraform*
