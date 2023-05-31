@@ -135,6 +135,15 @@ variable "SECURITY_GROUP" {
   description = "The Security Group to attach to the FortiGate instance Network Interfaces."
 }
 
+variable "RESOURCE_GRP" {
+  type        = string
+  default     = "Default"
+  description = "The RESOURCE Group Name to attach to the FortiGate instances."
+}
+
+data "ibm_resource_group" "rg" {
+  name = var.RESOURCE_GRP
+}
 
 // For easy identification, the name of the cluster uses the format cluster-name-resource-randomSuffix."
 // Name must be lowercase.
