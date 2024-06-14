@@ -30,6 +30,7 @@ variable "IBMREGION" {
     "au-syd"   = "sydney-private"
     "jp-tok"   = "tokyo-private"
     "jp-osa"   = "osaka-private"
+    "eu-es"    = "madrid-private"
   }
   description = "Map used to configure sdn connector for IBM in FortiOS"
 }
