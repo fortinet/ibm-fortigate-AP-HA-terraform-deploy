@@ -62,7 +62,7 @@ resource "ibm_is_virtual_network_interface" "vni-active" {
   for_each =  local.active
   name = "${var.CLUSTER_NAME}-${each.key}-${random_string.random_suffix.result}-${each.key}"
   allow_ip_spoofing = false
-  auto_delete = true
+  auto_delete = false
   enable_infrastructure_nat = true
   security_groups = [data.ibm_is_security_group.fgt_security_group.id]
   primary_ip {
@@ -76,7 +76,7 @@ resource "ibm_is_virtual_network_interface" "vni-passive" {
   for_each =  local.passive
   name = "${var.CLUSTER_NAME}-${each.key}-${random_string.random_suffix.result}-${each.key}"
   allow_ip_spoofing = false
-  auto_delete = true
+  auto_delete = false
   enable_infrastructure_nat = true
   primary_ip {
     auto_delete = false
