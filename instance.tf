@@ -17,16 +17,27 @@ resource "ibm_is_volume" "logDisk2" {
 }
 
 resource "ibm_is_floating_ip" "publicip" {
-  name   = "${var.CLUSTER_NAME}-publicip-${random_string.random_suffix.result}"
-  target = ibm_is_instance.fgt1.primary_network_interface[0].id
+  name = "${var.CLUSTER_NAME}-publicip-${random_string.random_suffix.result}"
 }
 resource "ibm_is_floating_ip" "publicip2" {
-  name   = "${var.CLUSTER_NAME}-hamgmt-fgt1-${random_string.random_suffix.result}"
-  target = ibm_is_instance.fgt1.network_interfaces[2].id // fourth port.
+  name = "${var.CLUSTER_NAME}-hamgmt-fgt1-${random_string.random_suffix.result}"
 }
 resource "ibm_is_floating_ip" "publicip3" {
-  name   = "${var.CLUSTER_NAME}-hamgmt-fgt2-${random_string.random_suffix.result}"
-  target = ibm_is_instance.fgt2.network_interfaces[2].id //fourth port.
+  name = "${var.CLUSTER_NAME}-hamgmt-fgt2-${random_string.random_suffix.result}"
+}
+resource "ibm_is_virtual_network_interface_floating_ip" "public_ip" {
+  virtual_network_interface = ibm_is_virtual_network_interface.vni-active["interface1"].id
+  floating_ip               = ibm_is_floating_ip.publicip.id
+}
+
+resource "ibm_is_virtual_network_interface_floating_ip" "public_ip2" {
+  virtual_network_interface = ibm_is_virtual_network_interface.vni-active["interface4"].id
+  floating_ip               = ibm_is_floating_ip.publicip2.id
+}
+
+resource "ibm_is_virtual_network_interface_floating_ip" "public_ip3" {
+  virtual_network_interface = ibm_is_virtual_network_interface.vni-passive["interface4"].id
+  floating_ip               = ibm_is_floating_ip.public3.id
 }
 
 //Primary Fortigate
@@ -38,24 +49,24 @@ resource "ibm_is_instance" "fgt1" {
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt1-att-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-active["interface1"].id
-      
+      id = ibm_is_virtual_network_interface.vni-active["interface1"].id
+
 
     }
   }
   network_attachments {
     name = "${var.CLUSTER_NAME}-port2-fgt1-att-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-active["interface2"].id
-      
+      id = ibm_is_virtual_network_interface.vni-active["interface2"].id
+
     }
   }
 
   network_attachments {
     name = "${var.CLUSTER_NAME}-port3-fgt1-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-active["interface3"].id
-      
+      id = ibm_is_virtual_network_interface.vni-active["interface3"].id
+
 
     }
   }
@@ -63,8 +74,8 @@ resource "ibm_is_instance" "fgt1" {
   network_attachments {
     name = "${var.CLUSTER_NAME}-port4-fgt1-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-active["interface4"].id
-      
+      id = ibm_is_virtual_network_interface.vni-active["interface4"].id
+
 
     }
   }
@@ -95,16 +106,16 @@ resource "ibm_is_instance" "fgt2" {
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-passive["interface1"].id
-      
+      id = ibm_is_virtual_network_interface.vni-passive["interface1"].id
+
 
     }
   }
   network_attachments {
     name = "${var.CLUSTER_NAME}-port2-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-passive["interface2"].id
-      
+      id = ibm_is_virtual_network_interface.vni-passive["interface2"].id
+
 
     }
   }
@@ -112,8 +123,8 @@ resource "ibm_is_instance" "fgt2" {
   network_attachments {
     name = "${var.CLUSTER_NAME}-port3-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-passive["interface3"].id
-      
+      id = ibm_is_virtual_network_interface.vni-passive["interface3"].id
+
 
     }
   }
@@ -121,8 +132,8 @@ resource "ibm_is_instance" "fgt2" {
   network_attachments {
     name = "${var.CLUSTER_NAME}-port4-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
-      id          = ibm_is_virtual_network_interface.vni-passive["interface4"].id
-      
+      id = ibm_is_virtual_network_interface.vni-passive["interface4"].id
+
 
     }
   }
