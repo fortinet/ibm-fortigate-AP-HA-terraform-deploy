@@ -18,12 +18,18 @@ resource "ibm_is_volume" "logDisk2" {
 
 resource "ibm_is_floating_ip" "publicip" {
   name = "${var.CLUSTER_NAME}-publicip-${random_string.random_suffix.result}"
+  zone    = var.ZONE
+
 }
 resource "ibm_is_floating_ip" "publicip2" {
   name = "${var.CLUSTER_NAME}-hamgmt-fgt1-${random_string.random_suffix.result}"
+  zone    = var.ZONE
+
 }
 resource "ibm_is_floating_ip" "publicip3" {
   name = "${var.CLUSTER_NAME}-hamgmt-fgt2-${random_string.random_suffix.result}"
+  zone    = var.ZONE
+
 }
 resource "ibm_is_virtual_network_interface_floating_ip" "public_ip" {
   virtual_network_interface = ibm_is_virtual_network_interface.vni-active["interface1"].id
