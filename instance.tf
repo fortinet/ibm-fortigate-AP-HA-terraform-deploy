@@ -43,7 +43,7 @@ resource "ibm_is_virtual_network_interface_floating_ip" "public_ip2" {
 
 resource "ibm_is_virtual_network_interface_floating_ip" "public_ip3" {
   virtual_network_interface = ibm_is_virtual_network_interface.vni-passive["interface4"].id
-  floating_ip               = ibm_is_floating_ip.public3.id
+  floating_ip               = ibm_is_floating_ip.publicip3.id
 }
 
 //Primary Fortigate
