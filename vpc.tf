@@ -59,7 +59,6 @@ locals {
 }
 
 resource "ibm_is_virtual_network_interface" "vni-active" {
-  depends_on = [ ibm_is_subnet_reserved_ip.primary-fgt-ips ]
   for_each                  = local.active
   name                      = "${var.CLUSTER_NAME}-fgt1-${each.key}-${random_string.random_suffix.result}"
   allow_ip_spoofing         = false
@@ -68,13 +67,12 @@ resource "ibm_is_virtual_network_interface" "vni-active" {
   security_groups           = [data.ibm_is_security_group.fgt_security_group.id]
   primary_ip {
     auto_delete = false
-    reserved_ip = resource.ibm_is_subnet_reserved_ip.secondary-fgt-ips[each.key].name
+    address     = each.value.ip
   }
   subnet = each.value.subnet
 }
 
 resource "ibm_is_virtual_network_interface" "vni-passive" {
-  depends_on = [ ibm_is_subnet_reserved_ip.secondary-fgt-ips ]
   for_each                  = local.passive
   name                      = "${var.CLUSTER_NAME}-fgt2-${each.key}-${random_string.random_suffix.result}"
   allow_ip_spoofing         = false
@@ -83,24 +81,6 @@ resource "ibm_is_virtual_network_interface" "vni-passive" {
   primary_ip {
     auto_delete = false
     address     = each.value.ip
-    reserved_ip = resource.ibm_is_subnet_reserved_ip.secondary-fgt-ips[each.key].name
   }
   subnet = each.value.subnet
-}
-
-resource "ibm_is_subnet_reserved_ip" "primary-fgt-ips" {
-  for_each    = local.active
-  subnet      = each.value.subnet
-  name        = "${var.CLUSTER_NAME}-fgt1-${each.key}-${random_string.random_suffix.result}"
-  auto_delete = true
-  address     = each.value.ip
-}
-
-
-resource "ibm_is_subnet_reserved_ip" "secondary-fgt-ips" {
-  for_each    = local.passive
-  subnet      = each.value.subnet
-  name        = "${var.CLUSTER_NAME}-fgt2-${each.key}-${random_string.random_suffix.result}"
-  auto_delete = true
-  address     = each.value.ip
 }
