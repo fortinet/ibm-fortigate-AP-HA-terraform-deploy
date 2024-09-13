@@ -91,7 +91,6 @@ resource "ibm_is_subnet_reserved_ip" "primary-fgt-ips" {
   subnet      = each.value.subnet
   name        = "${var.CLUSTER_NAME}-fgt1-${each.key}-${random_string.random_suffix.result}"
   auto_delete = true
-  target = ibm_is_virtual_network_interface.vni-active[each.key]
   }
 
 
@@ -100,5 +99,4 @@ resource "ibm_is_subnet_reserved_ip" "secondary-fgt-ips" {
   subnet      = each.value.subnet
   name        = "${var.CLUSTER_NAME}-fgt2-${each.key}-${random_string.random_suffix.result}"
   auto_delete = true
-  target = ibm_is_virtual_network_interface.vni-passive[each.key]
 }
