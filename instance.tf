@@ -51,6 +51,7 @@ resource "ibm_is_instance" "fgt1" {
   name    = "${var.CLUSTER_NAME}-fortigate1-${random_string.random_suffix.result}"
   image   = ibm_is_image.vnf_custom_image.id
   profile = var.PROFILE
+  resource_group = var.RESOURCE_GRP
 
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt1-att-${random_string.random_suffix.result}"
@@ -108,6 +109,7 @@ resource "ibm_is_instance" "fgt2" {
   name    = "${var.CLUSTER_NAME}-fortigate2-${random_string.random_suffix.result}"
   image   = ibm_is_image.vnf_custom_image.id
   profile = var.PROFILE
+  resource_group = var.RESOURCE_GRP
 
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt2-${random_string.random_suffix.result}"
