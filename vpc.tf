@@ -88,7 +88,7 @@ resource "ibm_is_subnet_reserved_ip" "primary-fgt-ips" {
 resource "ibm_is_virtual_network_interface_ip" "vni-reserved-ip-active" {
   for_each = local.active
   virtual_network_interface = ibm_is_virtual_network_interface.vni-active[each.key]
-  reserved_ip = ibm_is_subnet_reserved_ip.primary-fgt-ips[each.key]
+  reserved_ip = ibm_is_subnet_reserved_ip.primary-fgt-ips[each.key].reserved_ip
 }
 
 
@@ -101,5 +101,5 @@ resource "ibm_is_subnet_reserved_ip" "secondary-fgt-ips" {
 resource "ibm_is_virtual_network_interface_ip" "vni-reserved-ip-passive" {
   for_each = local.passive
   virtual_network_interface = ibm_is_virtual_network_interface.vni-passive[each.key]
-  reserved_ip = ibm_is_subnet_reserved_ip.secondary-fgt-ips[each.key]
+  reserved_ip = ibm_is_subnet_reserved_ip.secondary-fgt-ips[each.key].reserved_ip
 }
