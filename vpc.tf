@@ -90,7 +90,6 @@ resource "ibm_is_subnet_reserved_ip" "primary-fgt-ips" {
   for_each    = local.active
   subnet      = each.value.subnet
   name        = "${var.CLUSTER_NAME}-fgt1-${each.key}-${random_string.random_suffix.result}"
-  auto_delete = true
   }
 
 
@@ -98,5 +97,4 @@ resource "ibm_is_subnet_reserved_ip" "secondary-fgt-ips" {
   for_each    = local.passive
   subnet      = each.value.subnet
   name        = "${var.CLUSTER_NAME}-fgt2-${each.key}-${random_string.random_suffix.result}"
-  auto_delete = true
 }
