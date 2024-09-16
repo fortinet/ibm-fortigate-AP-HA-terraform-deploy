@@ -18,17 +18,17 @@ resource "ibm_is_volume" "logDisk2" {
 
 resource "ibm_is_floating_ip" "publicip" {
   name = "${var.CLUSTER_NAME}-publicip-${random_string.random_suffix.result}"
-  zone    = var.ZONE
+  zone = var.ZONE
 
 }
 resource "ibm_is_floating_ip" "publicip2" {
   name = "${var.CLUSTER_NAME}-hamgmt-fgt1-${random_string.random_suffix.result}"
-  zone    = var.ZONE
+  zone = var.ZONE
 
 }
 resource "ibm_is_floating_ip" "publicip3" {
   name = "${var.CLUSTER_NAME}-hamgmt-fgt2-${random_string.random_suffix.result}"
-  zone    = var.ZONE
+  zone = var.ZONE
 
 }
 resource "ibm_is_virtual_network_interface_floating_ip" "public_ip" {
@@ -48,9 +48,9 @@ resource "ibm_is_virtual_network_interface_floating_ip" "public_ip3" {
 
 //Primary Fortigate
 resource "ibm_is_instance" "fgt1" {
-  name    = "${var.CLUSTER_NAME}-fortigate1-${random_string.random_suffix.result}"
-  image   = ibm_is_image.vnf_custom_image.id
-  profile = var.PROFILE
+  name           = "${var.CLUSTER_NAME}-fortigate1-${random_string.random_suffix.result}"
+  image          = ibm_is_image.vnf_custom_image.id
+  profile        = var.PROFILE
   resource_group = data.ibm_resource_group.rg.id
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt1-att-${random_string.random_suffix.result}"
@@ -105,25 +105,21 @@ resource "ibm_is_instance" "fgt1" {
 
 // Secondary FortiGate
 resource "ibm_is_instance" "fgt2" {
-  name    = "${var.CLUSTER_NAME}-fortigate2-${random_string.random_suffix.result}"
-  image   = ibm_is_image.vnf_custom_image.id
-  profile = var.PROFILE
+  name           = "${var.CLUSTER_NAME}-fortigate2-${random_string.random_suffix.result}"
+  image          = ibm_is_image.vnf_custom_image.id
+  profile        = var.PROFILE
   resource_group = data.ibm_resource_group.rg.id
 
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
       id = ibm_is_virtual_network_interface.vni-passive["interface1"].id
-
-
     }
   }
   network_attachments {
     name = "${var.CLUSTER_NAME}-port2-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
       id = ibm_is_virtual_network_interface.vni-passive["interface2"].id
-
-
     }
   }
 
@@ -131,8 +127,6 @@ resource "ibm_is_instance" "fgt2" {
     name = "${var.CLUSTER_NAME}-port3-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
       id = ibm_is_virtual_network_interface.vni-passive["interface3"].id
-
-
     }
   }
 
@@ -140,8 +134,6 @@ resource "ibm_is_instance" "fgt2" {
     name = "${var.CLUSTER_NAME}-port4-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
       id = ibm_is_virtual_network_interface.vni-passive["interface4"].id
-
-
     }
   }
   volumes = [ibm_is_volume.logDisk2.id]
