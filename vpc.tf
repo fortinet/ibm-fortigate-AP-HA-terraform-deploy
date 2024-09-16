@@ -60,7 +60,7 @@ locals {
 
 resource "ibm_is_virtual_network_interface" "vni-active" {
   for_each                  = local.active
-  name                      = "${var.CLUSTER_NAME}-fgt1-${each.key}-${random_string.random_suffix.result}"
+  name                      = "${var.CLUSTER_NAME}-fgt1-vni-${each.key}-${random_string.random_suffix.result}"
   allow_ip_spoofing         = false
   auto_delete               = false
   enable_infrastructure_nat = true
@@ -70,7 +70,7 @@ resource "ibm_is_virtual_network_interface" "vni-active" {
 
 resource "ibm_is_virtual_network_interface" "vni-passive" {
   for_each                  = local.passive
-  name                      = "${var.CLUSTER_NAME}-fgt2-${each.key}-${random_string.random_suffix.result}"
+  name                      = "${var.CLUSTER_NAME}-fgt2-vni-${each.key}-${random_string.random_suffix.result}"
   allow_ip_spoofing         = false
   auto_delete               = false
   enable_infrastructure_nat = true
@@ -82,7 +82,7 @@ resource "ibm_is_virtual_network_interface" "vni-passive" {
 resource "ibm_is_subnet_reserved_ip" "primary-fgt-ips" {
   for_each    = local.active
   subnet      = each.value.subnet
-  name        = "${var.CLUSTER_NAME}-fgt1-${each.key}-${random_string.random_suffix.result}"
+  name        = "${var.CLUSTER_NAME}-fgt1-ip-${each.key}-${random_string.random_suffix.result}"
   }
 
 resource "ibm_is_virtual_network_interface_ip" "vni-reserved-ip-active" {
@@ -95,7 +95,7 @@ resource "ibm_is_virtual_network_interface_ip" "vni-reserved-ip-active" {
 resource "ibm_is_subnet_reserved_ip" "secondary-fgt-ips" {
   for_each    = local.passive
   subnet      = each.value.subnet
-  name        = "${var.CLUSTER_NAME}-fgt2-${each.key}-${random_string.random_suffix.result}"
+  name        = "${var.CLUSTER_NAME}-fgt2-ip-${each.key}-${random_string.random_suffix.result}"
 }
 
 resource "ibm_is_virtual_network_interface_ip" "vni-reserved-ip-passive" {
