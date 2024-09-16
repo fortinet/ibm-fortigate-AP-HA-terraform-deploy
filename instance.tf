@@ -127,8 +127,6 @@ resource "ibm_is_instance" "fgt2" {
     name = "${var.CLUSTER_NAME}-port3-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
       id = ibm_is_virtual_network_interface.vni-passive["interface3"].id
-
-
     }
   }
 
@@ -136,8 +134,6 @@ resource "ibm_is_instance" "fgt2" {
     name = "${var.CLUSTER_NAME}-port4-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
       id = ibm_is_virtual_network_interface.vni-passive["interface4"].id
-
-
     }
   }
   volumes = [ibm_is_volume.logDisk2.id]
