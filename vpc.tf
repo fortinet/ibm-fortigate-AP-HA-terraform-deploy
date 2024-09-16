@@ -65,6 +65,8 @@ resource "ibm_is_virtual_network_interface" "vni-active" {
   auto_delete               = false
   enable_infrastructure_nat = true
   security_groups           = [data.ibm_is_security_group.fgt_security_group.id]
+  resource_group            = data.ibm_resource_group.rg.id
+
   primary_ip {
     auto_delete = false
     address     = each.value.ip
@@ -78,6 +80,8 @@ resource "ibm_is_virtual_network_interface" "vni-passive" {
   allow_ip_spoofing         = false
   auto_delete               = false
   enable_infrastructure_nat = true
+  resource_group            = data.ibm_resource_group.rg.id
+
   primary_ip {
     auto_delete = false
     address     = each.value.ip
