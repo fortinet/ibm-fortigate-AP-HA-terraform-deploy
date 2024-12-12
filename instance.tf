@@ -2,6 +2,12 @@ data "ibm_is_ssh_key" "ssh_key" {
   name = var.SSH_PUBLIC_KEY
 }
 
+// HA Password
+resource "random_string" "ha_password" {
+  length  = 8
+  special = false
+}
+
 resource "ibm_is_volume" "logDisk1" {
   // Name must be lower case
   name    = "${var.CLUSTER_NAME}-logdisk1-${random_string.random_suffix.result}"
@@ -173,6 +179,7 @@ data "template_file" "userdata_active" {
     ibm_api_key              = var.IBMCLOUD_API_KEY
     region                   = var.IBMREGION[var.REGION]
     fgt1_port_4_mgmt_gateway = var.FGT1_PORT4_MGMT_GATEWAY
+    ha_password              = random_string.ha_password.result
 
   }
 }
@@ -195,5 +202,7 @@ data "template_file" "userdata_passive" {
     ibm_api_key              = var.IBMCLOUD_API_KEY
     region                   = var.IBMREGION[var.REGION]
     fgt2_port_4_mgmt_gateway = var.FGT2_PORT4_MGMT_GATEWAY
+    ha_password              = random_string.ha_password.result
+
   }
 }
