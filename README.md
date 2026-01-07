@@ -24,7 +24,7 @@ Terraform deploys the following components:
 
 # Deployment Diagram
 
-![IBM FortiGate Diagram](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha-diagram-singlezone.png)
+![IBM FortiGate Diagram](imgs/IBM_ha-diagram-singlezone.png)
 
 ## Deployment
 
@@ -33,7 +33,7 @@ Terraform deploys the following components:
 1. Fill in the required Subnets, security group and VPC information as shown in the example below:
 
 
-   ![IBM FortiGate Example Inputs](https://raw.githubusercontent.com/fortinet/ibm-fortigate-AP-HA-terraform-deploy/main/imgs/IBM_ha_example.png)
+   ![IBM FortiGate Example Inputs](imgs/IBM_ha_example.png)
 
   
 
