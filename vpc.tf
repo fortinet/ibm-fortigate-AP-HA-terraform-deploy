@@ -14,8 +14,35 @@ data "ibm_is_subnet" "subnet3" {
 data "ibm_is_subnet" "subnet4" {
   identifier = var.SUBNET_4
 }
-data "ibm_is_security_group" "fgt_security_group" {
-  name = var.SECURITY_GROUP
+
+data "ibm_is_security_group" "fgt_security_group_port1" {
+  count = var.SECURITY_GROUP_PORT1 != "" ? 1 : 0
+  name = var.SECURITY_GROUP_PORT1
+}
+
+data "ibm_is_security_group" "fgt_security_group_port2" {
+  count = var.SECURITY_GROUP_PORT2 != "" ? 1 : 0
+  name = var.SECURITY_GROUP_PORT2
+}
+
+resource "ibm_is_security_group" "fgt_security_group_port1" {
+  count = var.SECURITY_GROUP_PORT1 == "" ? 1 : 0
+  name  = "${var.CLUSTER_NAME}-fgt-sg-port1-${random_string.random_suffix.result}"
+  vpc   = data.ibm_is_vpc.vpc1.id
+}
+
+resource "ibm_is_security_group" "fgt_security_group_port2" {
+  count = var.SECURITY_GROUP_PORT2 == "" ? 1 : 0
+  name  = "${var.CLUSTER_NAME}-fgt-sg-port2-${random_string.random_suffix.result}"
+  vpc   = data.ibm_is_vpc.vpc1.id
+}
+
+locals {
+  security_group_port1_id = var.SECURITY_GROUP_PORT1 != "" ? data.ibm_is_security_group.fgt_security_group_port1[0].id : ibm_is_security_group.fgt_security_group_port1[0].id
+  security_group_port2_id = var.SECURITY_GROUP_PORT2 != "" ? data.ibm_is_security_group.fgt_security_group_port2[0].id : ibm_is_security_group.fgt_security_group_port2[0].id
+  security_group_port1_name = var.SECURITY_GROUP_PORT1 != "" ? data.ibm_is_security_group.fgt_security_group_port1[0].name : ibm_is_security_group.fgt_security_group_port1[0].name
+  security_group_port2_name = var.SECURITY_GROUP_PORT2 != "" ? data.ibm_is_security_group.fgt_security_group_port2[0].name : ibm_is_security_group.fgt_security_group_port2[0].name
+
 }
 
 locals {
@@ -64,7 +91,7 @@ resource "ibm_is_virtual_network_interface" "vni-active" {
   allow_ip_spoofing         = false
   auto_delete               = false
   enable_infrastructure_nat = true
-  security_groups           = [data.ibm_is_security_group.fgt_security_group.id]
+  security_groups           = [local.security_group_port1_id]
   resource_group            = data.ibm_resource_group.rg.id
 
   primary_ip {
@@ -80,7 +107,7 @@ resource "ibm_is_virtual_network_interface" "vni-passive" {
   allow_ip_spoofing         = false
   auto_delete               = false
   enable_infrastructure_nat = true
-  security_groups           = [data.ibm_is_security_group.fgt_security_group.id]
+  security_groups           = [local.security_group_port2_id]
   resource_group            = data.ibm_resource_group.rg.id
 
   primary_ip {
