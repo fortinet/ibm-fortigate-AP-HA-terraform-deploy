@@ -45,12 +45,18 @@ locals {
 
 }
 
-#Rule to enable HA talk
-resource "ibm_is_security_group_rule" "internal_traffic" {
+#Rules to enable HA talk
+resource "ibm_is_security_group_rule" "ingress_traffic" {
   group = local.security_group_private_id
 
   direction = "inbound"
-  local     = "0.0.0.0/0"
+  remote    = local.security_group_private_id
+}
+
+resource "ibm_is_security_group_rule" "egress_traffic" {
+  group = local.security_group_private_id
+
+  direction = "outbound"
   remote    = local.security_group_private_id
 }
 
