@@ -45,19 +45,69 @@ locals {
 
 }
 
-#Rules to enable HA talk
+#Rules to enable HA talk, only added to the private SG created by this template
 resource "ibm_is_security_group_rule" "ingress_traffic" {
-  group = local.security_group_private_id
+  count = var.SECURITY_GROUP_PRIVATE == "" ? 1 : 0
+  group = ibm_is_security_group.fgt_security_group_private[0].id
 
   direction = "inbound"
-  remote    = local.security_group_private_id
+  remote    = ibm_is_security_group.fgt_security_group_private[0].id
 }
 
 resource "ibm_is_security_group_rule" "egress_traffic" {
-  group = local.security_group_private_id
+  count = var.SECURITY_GROUP_PRIVATE == "" ? 1 : 0
+  group = ibm_is_security_group.fgt_security_group_private[0].id
 
   direction = "outbound"
-  remote    = local.security_group_private_id
+  remote    = ibm_is_security_group.fgt_security_group_private[0].id
+}
+
+#Rules for the public SG created by this template (port1 public + port4 HA mgmt)
+resource "ibm_is_security_group_rule" "public_ingress_https" {
+  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
+  group     = ibm_is_security_group.fgt_security_group_public[0].id
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+  protocol  = "tcp"
+  port_min  = 443
+  port_max  = 443
+}
+
+resource "ibm_is_security_group_rule" "public_ingress_ssh" {
+  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
+  group     = ibm_is_security_group.fgt_security_group_public[0].id
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+  protocol  = "tcp"
+  port_min  = 22
+  port_max  = 22
+}
+
+resource "ibm_is_security_group_rule" "public_ingress_fgfm" {
+  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
+  group     = ibm_is_security_group.fgt_security_group_public[0].id
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+  protocol  = "tcp"
+  port_min  = 541
+  port_max  = 541
+}
+
+resource "ibm_is_security_group_rule" "public_ingress_ping" {
+  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
+  group     = ibm_is_security_group.fgt_security_group_public[0].id
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+  protocol  = "icmp"
+  type      = 8
+}
+
+#Outbound open for FortiGuard, licensing, the IBM SDN connector API calls and egress traffic through port1
+resource "ibm_is_security_group_rule" "public_egress_all" {
+  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
+  group     = ibm_is_security_group.fgt_security_group_public[0].id
+  direction = "outbound"
+  remote    = "0.0.0.0/0"
 }
 
 locals {
