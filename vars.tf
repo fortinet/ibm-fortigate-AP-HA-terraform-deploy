@@ -132,13 +132,11 @@ variable "FGT2_PORT4_MGMT_GATEWAY" {
 }
 variable "SECURITY_GROUP_PUBLIC" {
   type        = string
-  default     = ""
-  description = "The Security Group to attach to the FortiGate instance Network Interface for Port 1 and Port 4."
+  description = "Required. The name of an existing Security Group to attach to the FortiGate instance Network Interface for Port 1 and Port 4."
 }
 variable "SECURITY_GROUP_PRIVATE" {
   type        = string
-  default     = ""
-  description = "The Security Group to attach to the FortiGate instance Network Interface for Port 2 and Port 3."
+  description = "Required. The name of an existing Security Group to attach to the FortiGate instance Network Interface for Port 2 and Port 3."
 }
 
 variable "RESOURCE_GRP" {

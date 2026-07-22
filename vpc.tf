@@ -16,98 +16,18 @@ data "ibm_is_subnet" "subnet4" {
 }
 
 data "ibm_is_security_group" "fgt_security_group_public" {
-  count = var.SECURITY_GROUP_PUBLIC != "" ? 1 : 0
-  name  = var.SECURITY_GROUP_PUBLIC
+  name = var.SECURITY_GROUP_PUBLIC
 }
 
 data "ibm_is_security_group" "fgt_security_group_private" {
-  count = var.SECURITY_GROUP_PRIVATE != "" ? 1 : 0
-  name  = var.SECURITY_GROUP_PRIVATE
-}
-
-resource "ibm_is_security_group" "fgt_security_group_public" {
-  count = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
-  name  = "${var.CLUSTER_NAME}-fgt-sg-public-${random_string.random_suffix.result}"
-  vpc   = data.ibm_is_vpc.vpc1.id
-}
-
-resource "ibm_is_security_group" "fgt_security_group_private" {
-  count = var.SECURITY_GROUP_PRIVATE == "" ? 1 : 0
-  name  = "${var.CLUSTER_NAME}-fgt-sg-private-${random_string.random_suffix.result}"
-  vpc   = data.ibm_is_vpc.vpc1.id
+  name = var.SECURITY_GROUP_PRIVATE
 }
 
 locals {
-  security_group_public_id    = var.SECURITY_GROUP_PUBLIC != "" ? data.ibm_is_security_group.fgt_security_group_public[0].id : ibm_is_security_group.fgt_security_group_public[0].id
-  security_group_private_id   = var.SECURITY_GROUP_PRIVATE != "" ? data.ibm_is_security_group.fgt_security_group_private[0].id : ibm_is_security_group.fgt_security_group_private[0].id
-  security_group_public_name  = var.SECURITY_GROUP_PUBLIC != "" ? data.ibm_is_security_group.fgt_security_group_public[0].name : ibm_is_security_group.fgt_security_group_public[0].name
-  security_group_private_name = var.SECURITY_GROUP_PRIVATE != "" ? data.ibm_is_security_group.fgt_security_group_private[0].name : ibm_is_security_group.fgt_security_group_private[0].name
-
-}
-
-#Rules to enable HA talk, only added to the private SG created by this template
-resource "ibm_is_security_group_rule" "ingress_traffic" {
-  count = var.SECURITY_GROUP_PRIVATE == "" ? 1 : 0
-  group = ibm_is_security_group.fgt_security_group_private[0].id
-
-  direction = "inbound"
-  remote    = ibm_is_security_group.fgt_security_group_private[0].id
-}
-
-resource "ibm_is_security_group_rule" "egress_traffic" {
-  count = var.SECURITY_GROUP_PRIVATE == "" ? 1 : 0
-  group = ibm_is_security_group.fgt_security_group_private[0].id
-
-  direction = "outbound"
-  remote    = ibm_is_security_group.fgt_security_group_private[0].id
-}
-
-#Rules for the public SG created by this template (port1 public + port4 HA mgmt)
-resource "ibm_is_security_group_rule" "public_ingress_https" {
-  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
-  group     = ibm_is_security_group.fgt_security_group_public[0].id
-  direction = "inbound"
-  remote    = "0.0.0.0/0"
-  protocol  = "tcp"
-  port_min  = 443
-  port_max  = 443
-}
-
-resource "ibm_is_security_group_rule" "public_ingress_ssh" {
-  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
-  group     = ibm_is_security_group.fgt_security_group_public[0].id
-  direction = "inbound"
-  remote    = "0.0.0.0/0"
-  protocol  = "tcp"
-  port_min  = 22
-  port_max  = 22
-}
-
-resource "ibm_is_security_group_rule" "public_ingress_fgfm" {
-  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
-  group     = ibm_is_security_group.fgt_security_group_public[0].id
-  direction = "inbound"
-  remote    = "0.0.0.0/0"
-  protocol  = "tcp"
-  port_min  = 541
-  port_max  = 541
-}
-
-resource "ibm_is_security_group_rule" "public_ingress_ping" {
-  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
-  group     = ibm_is_security_group.fgt_security_group_public[0].id
-  direction = "inbound"
-  remote    = "0.0.0.0/0"
-  protocol  = "icmp"
-  type      = 8
-}
-
-#Outbound open for FortiGuard, licensing, the IBM SDN connector API calls and egress traffic through port1
-resource "ibm_is_security_group_rule" "public_egress_all" {
-  count     = var.SECURITY_GROUP_PUBLIC == "" ? 1 : 0
-  group     = ibm_is_security_group.fgt_security_group_public[0].id
-  direction = "outbound"
-  remote    = "0.0.0.0/0"
+  security_group_public_id    = data.ibm_is_security_group.fgt_security_group_public.id
+  security_group_private_id   = data.ibm_is_security_group.fgt_security_group_private.id
+  security_group_public_name  = data.ibm_is_security_group.fgt_security_group_public.name
+  security_group_private_name = data.ibm_is_security_group.fgt_security_group_private.name
 }
 
 locals {
