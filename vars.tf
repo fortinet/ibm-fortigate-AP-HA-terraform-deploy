@@ -145,6 +145,11 @@ variable "RESOURCE_GRP" {
   description = "The RESOURCE Group Name to attach to the FortiGate instances."
 }
 
+variable "PUBLIC_GATEWAY_ID" {
+ type = string
+ description = "The Public Gateway ID for the Public Subnet"
+}
+
 data "ibm_resource_group" "rg" {
   name = var.RESOURCE_GRP
 }
