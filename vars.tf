@@ -130,14 +130,14 @@ variable "FGT2_PORT4_MGMT_GATEWAY" {
   default     = ""
   description = "Gateway for Port 4 (HA management port) on the secondary (PASSIVE) FortiGate."
 }
-variable "SECURITY_GROUP_PUBLIC" {
-  type        = string
-  description = "Required. The name of an existing Security Group to attach to the FortiGate instance Network Interface for Port 1 and Port 4."
-}
-variable "SECURITY_GROUP_PRIVATE" {
-  type        = string
-  description = "Required. The name of an existing Security Group to attach to the FortiGate instance Network Interface for Port 2 and Port 3."
-}
+# variable "SECURITY_GROUP_PUBLIC" {
+#   type        = string
+#   description = "Required. The name of an existing Security Group to attach to the FortiGate instance Network Interface for Port 1 and Port 4."
+# }
+# variable "SECURITY_GROUP_PRIVATE" {
+#   type        = string
+#   description = "Required. The name of an existing Security Group to attach to the FortiGate instance Network Interface for Port 2 and Port 3."
+# }
 
 variable "RESOURCE_GRP" {
   type        = string
@@ -146,8 +146,8 @@ variable "RESOURCE_GRP" {
 }
 
 variable "PUBLIC_GATEWAY_ID" {
- type = string
- description = "The Public Gateway ID for the Public Subnet"
+  type        = string
+  description = "The Public Gateway ID for the Public Subnet"
 }
 
 data "ibm_resource_group" "rg" {
