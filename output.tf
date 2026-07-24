@@ -22,11 +22,11 @@ output "FGT2_Default_Admin_Password" {
   value = ibm_is_instance.fgt2.id
 }
 output "Security_Group_Public_Name" {
-  description = "The name of the security group attached to FortiGate port1"
+  description = "The name of the security group attached to FortiGate port1 and port4"
   value       = local.security_group_public_name
 }
 
 output "Security_Group_Private_Name" {
-  description = "The name of the security group attached to FortiGate port2"
+  description = "The name of the security group attached to FortiGate port2 and port3"
   value       = local.security_group_private_name
 }
