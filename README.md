@@ -9,7 +9,7 @@ After the active VM is back up, it will take over as active once again.
 -   Two FortiOS 7.0 BYOL Licenses.
 -   [A VPC with four subnets in a single zone](https://cloud.ibm.com/docs/vpc/vpc-getting-started-with-ibm-cloud-virtual-private-cloud-infrastructure)
 -   [A configured IBM SSH key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)
--   [A security group](https://cloud.ibm.com/docs/security-groups?topic=security-groups-about-ibm-security-groups)
+-   [A public gateway](https://cloud.ibm.com/docs/vpc?topic=vpc-about-public-gateways) attached to the public subnet (its ID is a required input)
 
 ## Deployment overview
 
@@ -21,6 +21,23 @@ Terraform deploys the following components:
 -   Three floating Public IP addresses: one attached to the Primary FortiGate on Port1, which will failover and the other two attached to the HA management port (Port4) of each FortiGate.
 -   One log disk per FortiGate.
 -   A basic bootstrap configuration with HA support.
+-   Two security groups, created and attached automatically (see [Security groups](#security-groups) below).
+
+### Security groups
+
+The template creates and attaches two security groups — no pre-existing security group is required.
+
+| Security group | Attached to | Direction | Protocol / Port | Remote | Purpose |
+| -------------- | ----------------------------------------- | -------- | --------------- | ------------------- | ------------------------------------------ |
+| **Public** | Port1 (external), Port4 (HA management) | Inbound | TCP 443 | `0.0.0.0/0` | HTTPS admin GUI access *(see Note below)* |
+| | | Inbound | All | Same security group | Traffic between cluster members |
+| | | Outbound | UDP 53 | `0.0.0.0/0` | FortiGuard DNS & SDNS queries |
+| | | Outbound | TCP 443 | `0.0.0.0/0` | Licensing, FortiCare & IBM SDN connector |
+| | | Outbound | TCP 8890 | `0.0.0.0/0` | FortiGuard distribution updates |
+| **Private** | Port2 (internal), Port3 (HA heartbeat) | Inbound | All | Same security group | HA heartbeat/sync between cluster members |
+| | | Outbound | All | Same security group | HA heartbeat/sync between cluster members |
+
+> **Note:** The inbound HTTPS rule is open to `0.0.0.0/0` to allow initial access to the admin GUI. After initial configuration, it is recommended to lock the rule's remote down to a trusted host or CIDR.
 
 # Deployment Diagram
 
@@ -30,7 +47,7 @@ Terraform deploys the following components:
 
 > **Note:** For Subnets, the UUID is required.
 
-1. Fill in the required Subnets, security group and VPC information as shown in the example below:
+1. Fill in the required Subnets, public gateway and VPC information as shown in the example below:
 
 
    ![IBM FortiGate Example Inputs](imgs/IBM_ha_example.png)
@@ -38,7 +55,7 @@ Terraform deploys the following components:
   
 
 3. Apply the plan.
-4. Outputs, such as the **Public IP** and **Default username and password** can be found under the `View Log` link.
+4. Outputs, such as the **Public IP**, **Default username and password** and the names of the created **Security Groups** can be found under the `View Log` link.
 
 ## Destroy the cluster
 
