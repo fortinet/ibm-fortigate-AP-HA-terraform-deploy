@@ -73,6 +73,7 @@ jobs:
               file: fortigate-ibm-ha-repo/ci/pipeline/tasks/terraform-destroy.yml
               ensure: *teams_failure_notification
         file: fortigate-ibm-ha-repo/ci/pipeline/tasks/terraform-apply.yml
+        attempts: 3
 
       - task: terraform-destroy
         file: fortigate-ibm-ha-repo/ci/pipeline/tasks/terraform-destroy.yml
