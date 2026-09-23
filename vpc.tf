@@ -57,6 +57,17 @@ resource "ibm_is_security_group_rule" "fgt_public_outbound_dns" {
   name      = "allow-outbound-fortiguard-dns-udp-53"
 }
 
+# Outbound - TCP 853 for FortiGuard SDNS queries
+resource "ibm_is_security_group_rule" "fgt_public_outbound_sdns" {
+  group     = ibm_is_security_group.fgt_sg_public.id
+  direction = "outbound"
+  remote    = "0.0.0.0/0"
+  protocol  = "tcp"
+  port_min  = 853
+  port_max  = 853
+  name      = "allow-outbound-fortiguard-dns-tcp-853"
+}
+
 # Outbound - TCP 443 for Licensing, FortiCare & Entitlements
 resource "ibm_is_security_group_rule" "fgt_public_outbound_https" {
   group     = ibm_is_security_group.fgt_sg_public.id
