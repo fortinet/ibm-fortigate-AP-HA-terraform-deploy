@@ -125,7 +125,7 @@ resource "ibm_is_instance" "fgt2" {
   metadata_service {
     enabled = true
     protocol = "https"
-    response_hop_limit = 5
+    response_hop_limit = 1
   }
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt2-${random_string.random_suffix.result}"

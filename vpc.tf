@@ -183,7 +183,7 @@ resource "ibm_is_virtual_network_interface" "vni-active" {
   resource_group            = data.ibm_resource_group.rg.id
 
   primary_ip {
-    auto_delete = true
+    auto_delete = false
     address     = each.value.ip
   }
   subnet = each.value.subnet
@@ -199,7 +199,7 @@ resource "ibm_is_virtual_network_interface" "vni-passive" {
   resource_group            = data.ibm_resource_group.rg.id
 
   primary_ip {
-    auto_delete = true
+    auto_delete = false
     address     = each.value.ip
   }
   subnet = each.value.subnet
