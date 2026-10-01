@@ -58,6 +58,12 @@ resource "ibm_is_instance" "fgt1" {
   image          = ibm_is_image.vnf_custom_image.id
   profile        = var.PROFILE
   resource_group = data.ibm_resource_group.rg.id
+  
+  metadata_service {
+    enabled = true
+    protocol = "https"
+    response_hop_limit = 1
+  }
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt1-att-${random_string.random_suffix.result}"
     virtual_network_interface {
@@ -115,7 +121,12 @@ resource "ibm_is_instance" "fgt2" {
   image          = ibm_is_image.vnf_custom_image.id
   profile        = var.PROFILE
   resource_group = data.ibm_resource_group.rg.id
-
+  
+  metadata_service {
+    enabled = true
+    protocol = "https"
+    response_hop_limit = 1
+  }
   primary_network_attachment {
     name = "${var.CLUSTER_NAME}-port1-fgt2-${random_string.random_suffix.result}"
     virtual_network_interface {
@@ -180,7 +191,6 @@ data "template_file" "userdata_active" {
     region                   = var.IBMREGION[var.REGION]
     fgt1_port_4_mgmt_gateway = var.FGT1_PORT4_MGMT_GATEWAY
     ha_password              = random_string.ha_password.result
-
   }
 }
 
@@ -203,6 +213,5 @@ data "template_file" "userdata_passive" {
     region                   = var.IBMREGION[var.REGION]
     fgt2_port_4_mgmt_gateway = var.FGT2_PORT4_MGMT_GATEWAY
     ha_password              = random_string.ha_password.result
-
   }
 }

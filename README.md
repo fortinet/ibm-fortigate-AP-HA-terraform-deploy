@@ -6,7 +6,7 @@ After the active VM is back up, it will take over as active once again.
 ## Requirements
 
 -   [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) 0.13+
--   Two FortiOS 7.0 BYOL Licenses.
+-   Two FortiOS 8.0 BYOL Licenses.
 -   [A VPC with four subnets in a single zone](https://cloud.ibm.com/docs/vpc/vpc-getting-started-with-ibm-cloud-virtual-private-cloud-infrastructure)
 -   [A configured IBM SSH key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys)
 -   [A public gateway](https://cloud.ibm.com/docs/vpc?topic=vpc-about-public-gateways) attached to the public subnet (its ID is a required input)
